@@ -1,0 +1,153 @@
+﻿html, body {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------ THE FOLLOWING CSS RULES DEFINES THE NAVIGATION BAR STYLES ------ */
+.prestiva-brand {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+}
+
+.prestiva-logo {
+    height: 50px;
+    width: auto;
+}
+
+.prestiva-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #1f2937;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.prestiva-icon-link:hover {
+    background-color: #f3f4f6;
+    color: #2563eb;
+}
+
+.prestiva-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.navbar {
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+}
+
+.navbar .nav-link {
+    color: #374151;
+    font-weight: 600;
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.navbar .nav-link:hover {
+    color: #d00000;
+    transform: scale(1.1);
+}
+
+/* ------ THE FOLLOWING STYLES DEFINE THE APP FOOTER ------ */
+.prestiva-footer {
+    background: #ffffff;
+    color: #4b5563;
+    padding: 55px 0 20px;
+    margin-top: 60px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.prestiva-footer-logo {
+    height: 55px;
+    width: auto;
+    display: block;
+    margin: auto;
+}
+
+.prestiva-footer-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 320px;
+    margin-bottom: 18px;
+    color: #4b5563;
+}
+
+.prestiva-footer-links-inline {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.prestiva-footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #111827;
+}
+
+.prestiva-footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prestiva-footer-list li {
+    margin-bottom: 10px;
+}
+
+.prestiva-footer a {
+    color: #6b7280;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.prestiva-footer a:hover {
+    color: #d00000;
+    transform: translateX(4px);
+}
+
+.prestiva-footer-bottom {
+    font-size: 0.9rem;
+}
+
+.prestiva-footer-bottom-links {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.prestiva-footer-bottom-links a {
+    color: #b6b6b6;
+}
+
+.prestiva-footer-bottom-links a:hover {
+    color: #d00000;
+}
+
+@media (max-width: 768px) {
+    .prestiva-footer {
+        text-align: center;
+    }
+
+    .prestiva-footer-text {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .prestiva-footer-links-inline,
+    .prestiva-footer-bottom-links {
+        justify-content: center;
+    }
+}

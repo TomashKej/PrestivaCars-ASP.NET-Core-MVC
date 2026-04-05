@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PrestivaCars.Data/PrestivaCars.Data.csproj" Id="2b8224dd-0d41-40da-918c-658099294616" />
+  <Project Path="PrestivaCars.Intranet/PrestivaCars.Intranet.csproj" />
+  <Project Path="PrestivaCars.Web/PrestivaCars.Web.csproj" />
+</Solution>
