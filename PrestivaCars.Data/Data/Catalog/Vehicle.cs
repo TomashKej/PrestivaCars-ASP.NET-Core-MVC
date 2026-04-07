@@ -4,6 +4,11 @@ using PrestivaCars.Data.Data.Common;
 
 namespace PrestivaCars.Data.Data.Vehicles
 {
+    /// <summary>
+    /// The fallowing model represents a vehicle in the PrestivaCars application.
+    /// It includes properties for the vehicle's brand, model, production year, mileage, fuel type, 
+    /// transmission type, body type, color, engine capacity, power, VIN number, registration number, and category.
+    /// </summary>
     public class Vehicle : BaseEntity
     {
         [Key]
@@ -22,7 +27,7 @@ namespace PrestivaCars.Data.Data.Vehicles
         [Display(Name = "Production Year")]
         public int ProductionYear { get; set; }
 
-        [Display(Name = "Mileage (km)")]
+        [Display(Name = "Mileage")]
         public int Mileage { get; set; }
 
         [MaxLength(50)]
@@ -38,7 +43,7 @@ namespace PrestivaCars.Data.Data.Vehicles
         public string? BodyType { get; set; }
 
         [MaxLength(50)]
-        [Display(Name = "Color")]
+        [Display(Name = "Colour")]
         public string? Color { get; set; }
 
         [Display(Name = "Engine Capacity (cc)")]
@@ -48,10 +53,11 @@ namespace PrestivaCars.Data.Data.Vehicles
         public int PowerHp { get; set; }
 
         [MaxLength(50)]
+        [MinLength(17)]
         [Display(Name = "VIN Number")]
         public string? Vin { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(10)]
         [Display(Name = "Registration Number")]
         public string? RegistrationNumber { get; set; }
 

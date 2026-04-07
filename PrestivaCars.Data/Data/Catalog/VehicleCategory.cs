@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrestivaCars.Data.Data.Vehicles
 {
+    /// <summary>
+    /// The following model represents a vehicle category in the PrestivaCars application.
+    /// It includes properties for the category's name, slug, description, icon, and image.
+    /// </summary>
     public class VehicleCategory : BaseEntity
     {
         [Key]
@@ -36,6 +40,6 @@ namespace PrestivaCars.Data.Data.Vehicles
         public int Position { get; set; }
 
         // Relation to Vehicle - one-to-many
-        public ICollection<VehicleOffer>? VehicleOffers { get; set; }
+        public ICollection<Vehicle>? Vehicle { get; set; }
     }
 }

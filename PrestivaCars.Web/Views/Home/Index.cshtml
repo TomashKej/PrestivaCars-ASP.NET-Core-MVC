@@ -1,4 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model PrestivaCars.Data.Data.CMS.Page
+@{
+    ViewData["Title"] = Model?.Title ?? "Home";
 }
 
+<div class="container py-5">
+    @if (Model != null)
+    {
+        <div class="mb-4">
+            <h1>@Model.Title</h1>
+        </div>
+
+        <div>
+            <p>@Model.Content</p>
+            @* @Html.Raw(Model.Content) *@
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            Page not found.
+        </div>
+    }
+</div>

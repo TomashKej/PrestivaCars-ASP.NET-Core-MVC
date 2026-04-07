@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using PrestivaCars.Data.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configure the database context to use SQL Server with the connection string from appsettings.json
+builder.Services.AddDbContext<PrestivaCarsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PrestivaCarsContext")));
 
 var app = builder.Build();
 

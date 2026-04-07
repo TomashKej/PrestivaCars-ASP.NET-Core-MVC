@@ -59,9 +59,20 @@ Do not commit real secrets to the repository.
 `PrestivaCars.Data` contains:
 
 - `PrestivaCarsContext` (`DbContext`)
-- entity models for CMS pages and vehicle catalogue/offers
+- entity models for CMS, user profiles, and the vehicle catalogue/offers:
+  - CMS: `Page`, `Banner`
+  - Catalogue: `Vehicle`, `VehicleCategory`, `VehicleOffer`, `VehicleFeature`, `VehicleImage`, `VehicleOfferFeature`, `SavedOffer`
+  - Users: `UserProfile`
 
 Database provider and connection string setup is expected to be configured by the consuming web application(s).
+
+### CRUD and Audit Fields
+
+Entities inherit a shared `BaseEntity` that standardises common audit fields such as `IsActive`, `CreatedAt/CreatedBy`, `UpdatedAt/UpdatedBy`, and `DeletedAt/DeletedBy`.
+
+`PrestivaCarsContext` automatically sets audit fields during `SaveChanges` / `SaveChangesAsync` to keep CRUD operations consistent and reduce duplication.
+
+Controllers use explicit model binding to avoid exposing or editing base audit fields in forms and views (and to reduce overposting risk).
 
 ## Build
 

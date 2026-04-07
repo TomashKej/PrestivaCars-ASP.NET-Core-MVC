@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrestivaCars.Data.Data.Vehicles
 {
+    /// <summary>
+    /// The following model represents a saved offer in the PrestivaCars application.
+    /// It includes properties for the saved offer's ID, user ID, and the associated vehicle offer ID.
+    /// </summary>
     public class SavedOffer : BaseEntity
     {
         [Key]

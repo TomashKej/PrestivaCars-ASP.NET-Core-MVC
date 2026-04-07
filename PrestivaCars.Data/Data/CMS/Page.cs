@@ -7,6 +7,11 @@ using System.Text;
 
 namespace PrestivaCars.Data.Data.CMS
 {
+    /// <summary>
+    /// The following model represents a page in the content management system (CMS) of the PrestivaCars application. 
+    /// It includes properties for the page's title, slug, content, and other relevant information. 
+    /// The model also includes data annotations for validation and display purposes.
+    /// </summary>
     public class Page : BaseEntity
     {
         [Key]

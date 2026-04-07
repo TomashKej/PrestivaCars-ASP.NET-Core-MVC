@@ -1,0 +1,149 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.Vehicles.Vehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductionYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mileage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FuelType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransmissionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BodyType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EngineCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PowerHp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductionYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mileage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuelType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransmissionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BodyType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EngineCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowerHp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleCategory.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedBy)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

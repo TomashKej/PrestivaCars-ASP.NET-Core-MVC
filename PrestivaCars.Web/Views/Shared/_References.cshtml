@@ -1,0 +1,10 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.CMS.Page>
+
+@foreach (var item in Model)
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Home" asp-action="Index" asp-route-id="@item.PageId">
+            @item.Title
+        </a>
+    </li>    
+}
