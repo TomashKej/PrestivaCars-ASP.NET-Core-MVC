@@ -65,7 +65,7 @@ namespace PrestivaCars.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "CreatedBy", vehicle.VehicleCategoryId);
+            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name", vehicle.VehicleCategoryId);
             return View(vehicle);
         }
 
@@ -82,7 +82,7 @@ namespace PrestivaCars.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "CreatedBy", vehicle.VehicleCategoryId);
+            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name", vehicle.VehicleCategoryId);
             return View(vehicle);
         }
 
@@ -118,7 +118,7 @@ namespace PrestivaCars.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "CreatedBy", vehicle.VehicleCategoryId);
+            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name", vehicle.VehicleCategoryId);
             return View(vehicle);
         }
 
@@ -138,7 +138,8 @@ namespace PrestivaCars.Intranet.Controllers
                 return NotFound();
             }
 
-            return View(vehicle);
+            //return View(vehicle);
+            return PartialView("_DeleteModal", vehicle);
         }
 
         // POST: Vehicles/Delete/5

@@ -54,8 +54,51 @@ body {
 }
 
 .navbar .nav-link:hover {
-    color: #d00000;
-    transform: scale(1.1);
+    color: #920101;
+    transform: scale(1.07);
+}
+
+.prestiva-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+/* --- HAMBURGER MENU --- */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        margin-top: 0.8rem;
+        padding: 1rem;
+        background-color: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-nav {
+        width: 100%;
+    }
+
+    .navbar .nav-link {
+        display: block;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        transform: none !important;
+    }
+
+    .navbar .nav-link:hover {
+        background-color: #EBEBEB;
+        color: #920101;
+    }
+
+    .prestiva-actions {
+        margin-left: 0;
+        margin-top: 0.8rem;
+        padding-top: 0.7rem;
+        border-top: 1px solid #e5e7eb;
+        justify-content: flex-start;
+    }
 }
 
 /* ------ THE FOLLOWING STYLES DEFINE THE APP FOOTER ------ */

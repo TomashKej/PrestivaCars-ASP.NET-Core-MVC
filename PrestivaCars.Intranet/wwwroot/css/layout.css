@@ -1,0 +1,94 @@
+﻿html, body {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.prestiva-logo {
+    height: 50px;
+    width: auto;
+}
+
+.navbar {
+    padding: 0.6rem 1rem;
+}
+
+.navbar .nav-link {
+    color: #374151 !important;
+    font-size: 0.95rem;
+    padding: 8px 14px !important;
+    transition: all 0.2s ease;
+    position: relative;
+    font-weight: 600;
+}
+
+.navbar .nav-link:hover {
+    color: #920101 !important;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    bottom: 4px;
+    width: 20%;
+    height: 2px;
+    background-color: #920101;
+    transition: width 0.25s ease;
+}
+.navbar .nav-link:hover::after {
+    width: calc(100% - 20px);
+    background-color: #920101;
+}
+
+/* ACTIVE LINK (do ogarnięcia dynamicznie później) */
+/*.navbar .nav-link.active {
+    color: #ffffff !important;
+}*/
+
+/* DROPDOWN */
+
+.dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    margin-top: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.50);
+    animation: fadeIn 0.15s ease-in-out;
+}
+
+.dropdown-item {
+    color: #000000 !important;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    color: #920101 !important;
+    transform: scale(1.05);
+    background-color: #f1f3f5;
+    cursor: pointer;
+}
+
+/*Animation*/
+@keyframes fadeIn {
+    from 
+    {
+        opacity: 0;
+        transform: translateY(10px);
+    } 
+    to
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
