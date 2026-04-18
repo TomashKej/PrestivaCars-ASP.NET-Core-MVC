@@ -1,138 +1,297 @@
 ﻿@model PrestivaCars.Data.Data.Vehicles.Vehicle
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Vehicle details";
 }
 
-<h1>Details</h1>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h3 class="mb-1">Vehicle Details</h3>
+        <p class="text-muted mb-0">Complete record view for the selected vehicle in the catalogue.</p>
+    </div>
 
-<div>
-    <h4>Vehicle</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductionYear)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductionYear)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mileage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mileage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FuelType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FuelType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TransmissionType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TransmissionType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BodyType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BodyType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EngineCapacity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EngineCapacity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PowerHp)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PowerHp)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Vin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegistrationNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegistrationNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehicleCategory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehicleCategory.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedBy)
-        </dd>
-    </dl>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.VehicleId" class="btn btn-primary">
+            Edit Vehicle
+        </a>
+
+        <button type="button"
+                class="btn btn-danger js-delete-btn"
+                data-id="@Model.VehicleId">
+            Delete
+        </button>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.VehicleId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h4 class="mb-1">@Model.Brand - @Model.Model</h4>
+                <p class="text-muted mb-2">Record ID: @Model.VehicleId</p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge text-bg-light border">Year: @Model.ProductionYear</span>
+                    <span class="badge text-bg-light border">Mileage: @Model.Mileage</span>
+                    <span class="badge text-bg-light border">Fuel: @Model.FuelType</span>
+                    <span class="badge text-bg-light border">Transmission: @Model.TransmissionType</span>
+                </div>
+            </div>
+
+            <div class="text-md-end">
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success-subtle text-success px-3 py-2">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary-subtle text-warning px-3 py-2">Inactive</span>
+                }
+
+                <div class="small text-muted mt-2">
+                    Category: <span class="fw-semibold text-dark">@(Model.VehicleCategory?.Name ?? "N/A")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+
+    <!-- GALERY -->
+    <div class="col-12">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-white border pt-4 px-4">
+                <h4>Vehicle Gallery</h4>
+                <p class="text-muted mb-0 small">Reserved section for future vehicle image presentation</p>
+            </div>
+
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="border rounded-4 bg-light d-flex align-items-center justify-content-center" style="min-height: 320px;">
+                            <div class="text-center text-muted">
+                                <div class="fs-5 fw-semibold mb-1">Main photo placeholder</div>
+                                <div class="small">Primary vehicle image will be displayed here</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="border rounded-4 bg-light d-flex align-items-center justify-content-center" style="min-height: 150px;">
+                                    <span class="text-muted small">Photo 2</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="border rounded-4 bg-light d-flex align-items-center justify-content-center" style="min-height: 150px;">
+                                    <span class="text-muted small">Photo 3</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="border rounded-4 bg-light d-flex align-items-center justify-content-center" style="min-height: 150px;">
+                                    <span class="text-muted small">Photo 4</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="border rounded-4 bg-light d-flex align-items-center justify-content-center" style="min-height: 150px;">
+                                    <span class="text-muted small">Photo 5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECHNICAL DETAILS -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h4 class="mb-0">Technical Details</h4>
+            </div>
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Brand</label>
+                        <div class="fw-semibold">@Model.Brand</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Model</label>
+                        <div class="fw-semibold">@Model.Model</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Production year</label>
+                        <div class="fw-semibold">@Model.ProductionYear</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Mileage</label>
+                        <div class="fw-semibold">@Model.Mileage</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Fuel type</label>
+                        <div class="fw-semibold">@Model.FuelType</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Transmission</label>
+                        <div class="fw-semibold">@Model.TransmissionType</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Body type</label>
+                        <div class="fw-semibold">@Model.BodyType</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Colour</label>
+                        <div class="fw-semibold">@Model.Color</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Engine capacity</label>
+                        <div class="fw-semibold">@Model.EngineCapacity cc</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Power output</label>
+                        <div class="fw-semibold">@Model.PowerHp HP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IDENTIFICATION -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-0">Registration & Identification</h5>
+            </div>
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="text-muted small d-block">VIN</label>
+                        <div class="fw-semibold">@Model.Vin</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Registration number</label>
+                        <div class="fw-semibold">@Model.RegistrationNumber</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Category</label>
+                        <div class="fw-semibold">@(Model.VehicleCategory?.Name ?? "-")</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Current status</label>
+                        <div class="fw-semibold">
+                            @(Model.IsActive ? "Active" : "Inactive")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIT -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-0">Audit Information</h5>
+            </div>
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Created by</label>
+                        <div class="fw-semibold">@(Model.CreatedBy ?? "-")</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Created at</label>
+                        <div class="fw-semibold">
+                            @Model.CreatedAt.ToString("dd MMM yyyy, HH:mm")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Last updated by</label>
+                        <div class="fw-semibold">@(Model.UpdatedBy ?? "-")</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Last updated at</label>
+                        <div class="fw-semibold">
+                            @(Model.UpdatedAt.HasValue? Model.UpdatedAt.Value.ToString("dd MMM yyyy, HH:mm") : "-")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Deleted by</label>
+                        <div class="fw-semibold">@(Model.DeletedBy ?? "-")</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Deleted at</label>
+                        <div class="fw-semibold">
+                            @(Model.DeletedAt.HasValue? Model.DeletedAt.Value.ToString("dd MMM yyyy, HH:mm") : "-")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FUTURE BUSINESS PLACEHOLDERS -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-0">Commercial & Publishing Data</h5>
+            </div>
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Advert title</label>
+                        <div class="fw-semibold text-muted">Placeholder</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Listing price</label>
+                        <div class="fw-semibold text-muted">Placeholder</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Publication status</label>
+                        <div class="fw-semibold text-muted">Placeholder</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Featured on homepage</label>
+                        <div class="fw-semibold text-muted">Placeholder</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Description preview</label>
+                        <div class="fw-semibold text-muted">Placeholder for future CMS / advert content.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 d-flex gap-2 flex-wrap">
+    <a asp-action="Edit" asp-route-id="@Model.VehicleId" class="btn btn-primary">
+        Edit Vehicle
+    </a>
+
+    <button type="button"
+            class="btn btn-danger js-delete-btn"
+            data-id="@Model.VehicleId">
+        Delete
+    </button>
+
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        Back to List
+    </a>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteVehicleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" id="deleteVehicleModalContent"></div>
+    </div>
 </div>

@@ -188,22 +188,3 @@
         <div class="modal-content" id="deleteVehicleModalContent"></div>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        document.querySelectorAll('.js-delete-btn').forEach(button => {
-            button.addEventListener('click', async function () {
-                const vehicleId = this.getAttribute('data-id');
-
-                const response = await fetch(`/Vehicles/Delete/${vehicleId}`);
-                const html = await response.text();
-
-                document.getElementById('deleteVehicleModalContent').innerHTML = html;
-
-                const modalElement = document.getElementById('deleteVehicleModal');
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
-            });
-        });
-    </script>
-}

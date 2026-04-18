@@ -1,0 +1,77 @@
+﻿@model PrestivaCars.Data.Data.Vehicles.Vehicle
+
+<div class="row g-3">
+
+    <div class="col-md-6">
+        <label class="form-label">Brand</label>
+        <input asp-for="Brand" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Model</label>
+        <input asp-for="Model" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Year</label>
+        <input asp-for="ProductionYear" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Mileage</label>
+        <input asp-for="Mileage" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Engine (cc)</label>
+        <input asp-for="EngineCapacity" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Power (HP)</label>
+        <input asp-for="PowerHp" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Fuel type</label>
+        <input asp-for="FuelType" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Transmission</label>
+        <input asp-for="TransmissionType" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Body type</label>
+        <input asp-for="BodyType" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Colour</label>
+        <input asp-for="Color" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">VIN</label>
+        <input asp-for="Vin" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Registration number</label>
+        <input asp-for="RegistrationNumber" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Category</label>
+        <select asp-for="VehicleCategoryId" asp-items="ViewBag.VehicleCategoryId" class="form-select"></select>
+    </div>
+
+    <div class="col-md-6 d-flex align-items-end">
+        <div class="form-check">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label class="form-check-label">Active</label>
+        </div>
+    </div>
+
+</div>
