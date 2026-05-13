@@ -131,20 +131,22 @@ namespace PrestivaCars.Intranet.Controllers
                 return NotFound();
             }
 
-            return View(vehicleCategory);
+            return PartialView("_DeleteModal",vehicleCategory);
         }
 
         // POST: VehicleCategories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var vehicleCategory = await _context.VehicleCategories.FindAsync(id);
-            if (vehicleCategory != null)
+            if (vehicleCategory == null)
             {
-                _context.VehicleCategories.Remove(vehicleCategory);
+                return NotFound();
             }
 
+            vehicleCategory.IsActive = false;
+            _context.Update(vehicleCategory);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

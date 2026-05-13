@@ -32,7 +32,7 @@ namespace PrestivaCars.Data.Data.Catalog
         [Display(Name = "Vehicle Offer")]
         public int VehicleOfferId { get; set; }
 
-        public VehicleOffer? VehicleOffer { get; set; }
+        public VehicleOffer VehicleOffer { get; set; } = null!;
 
     }
 }

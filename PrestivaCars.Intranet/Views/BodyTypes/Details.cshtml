@@ -1,0 +1,97 @@
+﻿@model PrestivaCars.Data.Data.Catalog.BodyType
+
+@{
+    ViewData["Title"] = "Body type details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h3 class="mb-1">Body type Details</h3>
+        <p class="text-muted mb-0">Complete record view for the selected vehicle body type.</p>
+    </div>
+
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.BodyTypeId" class="btn btn-primary">
+            Edit body type
+        </a>
+
+        <button type="button"
+                class="btn btn-danger js-delete-btn"
+                data-delete-url="@Url.Action("Delete", "BodyTypes", new { id = Model.BodyTypeId })">
+            Delete
+        </button>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h4 class="mb-1">@Model.Name</h4>
+                <p class="text-muted mb-2">Record ID: @Model.BodyTypeId</p>
+            </div>
+
+            <div class="text-md-end">
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success-subtle text-success px-3 py-2">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary-subtle text-secondary px-3 py-2">Inactive</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-lg border-0">
+    <div class="card-header bg-white border-0 pt-4 px-4">
+        <h5 class="mb-0">Description</h5>
+    </div>
+
+    <div class="card-body px-4 pb-4">
+        <div class="row g-3">
+
+            <div class="col-12">
+
+                @if (!string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <div class="fw-muted">@Model.Description</div>
+                }
+                else
+                {
+                    <div class="text-muted fst-italic">No description provided.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mt-4 d-flex gap-2 flex-wrap">
+    <a asp-action="Edit" asp-route-id="@Model.BodyTypeId" class="btn btn-primary">
+        Edit body type
+    </a>
+
+    <button type="button"
+            class="btn btn-danger js-delete-btn"
+            data-delete-url="@Url.Action("Delete", "BodyTypes", new { id = Model.BodyTypeId })">
+        Delete
+    </button>
+
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        Back to List
+    </a>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" id="deleteModalContent"></div>
+    </div>
+</div>

@@ -1,7 +1,12 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿/**
+ *  Delete Modal Script
+ *  If the delete button is clicked, it fetches the delete confirmation modal content via AJAX and displays it in a Bootstrap modal.
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll(".js-delete-btn");
-    const modalElement = document.getElementById("deleteVehicleModal");
-    const modalContent = document.getElementById("deleteVehicleModalContent");
+    const modalElement = document.getElementById("deleteModal");
+    const modalContent = document.getElementById("deleteModalContent");
 
     if (!deleteButtons.length || !modalElement || !modalContent) {
         return;
@@ -9,20 +14,22 @@
 
     deleteButtons.forEach(button => {
         button.addEventListener("click", async function () {
-            const vehicleId = this.getAttribute("data-id");
+            const deleteUrl = this.getAttribute("data-delete-url");
 
-            if (!vehicleId) {
+            if (!deleteUrl) {
+                console.error("Missing data-delete-url attribute on delete button.");
                 return;
             }
 
             try {
-                const response = await fetch(`/Vehicles/Delete/${vehicleId}`);
+                const response = await fetch(deleteUrl);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error: ${response.status}`);
                 }
 
                 const html = await response.text();
+
                 modalContent.innerHTML = html;
 
                 const modal = new bootstrap.Modal(modalElement);

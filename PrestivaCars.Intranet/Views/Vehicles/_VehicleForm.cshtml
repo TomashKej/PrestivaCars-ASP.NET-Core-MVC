@@ -3,74 +3,99 @@
 <div class="row g-3">
 
     <div class="col-md-6">
-        <label class="form-label">Brand</label>
-        <input asp-for="Brand" class="form-control" />
+        <label asp-for="BrandId" class="form-label"></label>
+        <select asp-for="BrandId" asp-items="ViewBag.BrandId" class="form-select">
+            <option value="">Select brand</option>
+        </select>
+        <span asp-validation-for="BrandId" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Model</label>
+        <label asp-for="Model" class="form-label"></label>
         <input asp-for="Model" class="form-control" />
+        <span asp-validation-for="Model" class="text-danger"></span>
     </div>
 
     <div class="col-md-3">
-        <label class="form-label">Year</label>
+        <label asp-for="ProductionYear" class="form-label"></label>
         <input asp-for="ProductionYear" class="form-control" />
+        <span asp-validation-for="ProductionYear" class="text-danger"></span>
     </div>
 
     <div class="col-md-3">
-        <label class="form-label">Mileage</label>
+        <label asp-for="Mileage" class="form-label"></label>
         <input asp-for="Mileage" class="form-control" />
+        <span asp-validation-for="Mileage" class="text-danger"></span>
     </div>
 
     <div class="col-md-3">
-        <label class="form-label">Engine (cc)</label>
+        <label asp-for="EngineCapacity" class="form-label"></label>
         <input asp-for="EngineCapacity" class="form-control" />
+        <span asp-validation-for="EngineCapacity" class="text-danger"></span>
     </div>
 
     <div class="col-md-3">
-        <label class="form-label">Power (HP)</label>
+        <label asp-for="PowerHp" class="form-label"></label>
         <input asp-for="PowerHp" class="form-control" />
+        <span asp-validation-for="PowerHp" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Fuel type</label>
-        <input asp-for="FuelType" class="form-control" />
+        <label asp-for="FuelTypeId" class="form-label"></label>
+        <select asp-for="FuelTypeId" asp-items="ViewBag.FuelTypeId" class="form-select">
+            <option value="">Select fuel type</option>
+        </select>
+        <span asp-validation-for="FuelTypeId" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Transmission</label>
-        <input asp-for="TransmissionType" class="form-control" />
+        <label asp-for="TransmissionTypeId" class="form-label"></label>
+        <select asp-for="TransmissionTypeId" asp-items="ViewBag.TransmissionTypeId" class="form-select">
+            <option value="">Select transmission type</option>
+        </select>
+        <span asp-validation-for="TransmissionTypeId" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Body type</label>
-        <input asp-for="BodyType" class="form-control" />
+        <label asp-for="BodyTypeId" class="form-label"></label>
+        <select asp-for="BodyTypeId" asp-items="ViewBag.BodyTypeId" class="form-select">
+            <option value="">Select body type</option>
+        </select>
+        <span asp-validation-for="BodyTypeId" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Colour</label>
-        <input asp-for="Color" class="form-control" />
+        <label asp-for="VehicleColourId" class="form-label"></label>
+        <select asp-for="VehicleColourId" asp-items="ViewBag.VehicleColourId" class="form-select">
+            <option value="">Select colour</option>
+        </select>
+        <span asp-validation-for="VehicleColourId" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">VIN</label>
+        <label asp-for="Vin" class="form-label"></label>
         <input asp-for="Vin" class="form-control" />
+        <span asp-validation-for="Vin" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Registration number</label>
+        <label asp-for="RegistrationNumber" class="form-label"></label>
         <input asp-for="RegistrationNumber" class="form-control" />
+        <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
-        <label class="form-label">Category</label>
-        <select asp-for="VehicleCategoryId" asp-items="ViewBag.VehicleCategoryId" class="form-select"></select>
+        <label asp-for="VehicleCategoryId" class="form-label"></label>
+        <select asp-for="VehicleCategoryId" asp-items="ViewBag.VehicleCategoryId" class="form-select">
+            <option value="">Select category</option>
+        </select>
+        <span asp-validation-for="VehicleCategoryId" class="text-danger"></span>
     </div>
 
     <div class="col-md-6 d-flex align-items-end">
         <div class="form-check">
             <input asp-for="IsActive" class="form-check-input" />
-            <label class="form-check-label">Active</label>
+            <label asp-for="IsActive" class="form-check-label"></label>
         </div>
     </div>
 

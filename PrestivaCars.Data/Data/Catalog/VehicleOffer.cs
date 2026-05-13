@@ -46,12 +46,12 @@ namespace PrestivaCars.Data.Data.Vehicles
         [Display(Name = "Vehicle")]
         public int VehicleId { get; set; }
 
-        public Vehicle? Vehicle { get; set; }
+        public Vehicle Vehicle { get; set; } = null!;
 
         // Relation to SavedOffer - one-to-many
-        public ICollection<SavedOffer>? SavedOffers { get; set; }
+        public ICollection<SavedOffer> SavedOffers { get; set; } = new List<SavedOffer>();
         // Relation to VehicleImage - one-to-many
-        public ICollection<VehicleImage>? VehicleImages { get; set; }
+        public ICollection<VehicleImage> VehicleImages { get; set; } = new List<VehicleImage>();
 
     }
 }

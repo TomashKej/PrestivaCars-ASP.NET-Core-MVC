@@ -1,0 +1,33 @@
+﻿@model PrestivaCars.Data.Data.Catalog.VehicleColour
+
+@{
+    ViewData["Title"] = "Add vehicle colour";
+}
+
+<div class="card shadow-lg">
+    <div class="card-body">
+        <h4 class="mb-4">Add new colour</h4>
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <partial name="_VehicleColoursForm" model="Model" />
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    Create
+                </button>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

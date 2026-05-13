@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PrestivaCars.Intranet</title>
+    <title>@ViewData["Title"] - PrestivaCars internal portal</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -29,11 +29,23 @@
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Vehicles
                             </a>
+
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Vehicles" asp-action="Index">All Vehicles</a></li>
+                                <li class="dropdown-header">Vehicle Management</li>
+                                <li><a class="dropdown-item" asp-controller="Vehicles" asp-action="Index"> All Vehicles</a></li>
                                 <li><a class="dropdown-item" asp-controller="Vehicles" asp-action="Create">Add Vehicle</a></li>
                                 <li><hr class="dropdown-divider"></li>
+
+                                <li class="dropdown-header">Vehicle Dictionary</li>
+                                <li><a class="dropdown-item" asp-controller="Brands" asp-action="Index">Brands</a></li>
                                 <li><a class="dropdown-item" asp-controller="VehicleCategories" asp-action="Index">Categories</a></li>
+                                <li><a class="dropdown-item" asp-controller="BodyTypes" asp-action="Index">Body Types</a></li>
+                                <li><a class="dropdown-item" asp-controller="FuelTypes" asp-action="Index">Fuel Types</a></li>
+                                <li><a class="dropdown-item" asp-controller="TransmissionTypes" asp-action="Index">Transmission Types</a></li>
+                                <li><a class="dropdown-item" asp-controller="VehicleColours" asp-action="Index">Colours</a></li>
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li class="dropdown-header">Vehicle Content</li>
                                 <li><a class="dropdown-item" asp-controller="VehicleFeatures" asp-action="Index">Features</a></li>
                                 <li><a class="dropdown-item" asp-controller="VehicleImages" asp-action="Index">Images</a></li>
                             </ul>

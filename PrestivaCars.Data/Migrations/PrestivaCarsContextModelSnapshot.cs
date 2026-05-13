@@ -17,10 +17,71 @@ namespace PrestivaCars.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.CMS.Banner", b =>
+                {
+                    b.Property<int>("BannerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BannerId"));
+
+                    b.Property<string>("ButtonText")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ButtonUrl")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subtitle")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BannerId");
+
+                    b.ToTable("Banners");
+                });
 
             modelBuilder.Entity("PrestivaCars.Data.Data.CMS.Page", b =>
                 {
@@ -86,6 +147,232 @@ namespace PrestivaCars.Data.Migrations
                     b.HasKey("PageId");
 
                     b.ToTable("Pages");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.BodyType", b =>
+                {
+                    b.Property<int>("BodyTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BodyTypeId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BodyTypeId");
+
+                    b.ToTable("BodyTypes");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.Brand", b =>
+                {
+                    b.Property<int>("BrandId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BrandId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BrandId");
+
+                    b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.FuelType", b =>
+                {
+                    b.Property<int>("FuelTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FuelTypeId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FuelTypeId");
+
+                    b.ToTable("FuelTypes");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.TransmissionType", b =>
+                {
+                    b.Property<int>("TransmissionTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransmissionTypeId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TransmissionTypeId");
+
+                    b.ToTable("TransmissionTypes");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.VehicleColour", b =>
+                {
+                    b.Property<int>("VehicleColourId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleColourId"));
+
+                    b.Property<string>("ColourName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("VehicleColourId");
+
+                    b.ToTable("VehicleColors");
                 });
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.VehicleFeature", b =>
@@ -184,75 +471,19 @@ namespace PrestivaCars.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("VehicleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VehicleOfferId")
                         .HasColumnType("int");
 
                     b.HasKey("VehicleImageId");
 
+                    b.HasIndex("VehicleId");
+
                     b.HasIndex("VehicleOfferId");
 
                     b.ToTable("VehicleImages");
-                });
-
-            modelBuilder.Entity("PrestivaCars.Data.Data.Cms.Banner", b =>
-                {
-                    b.Property<int>("BannerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BannerId"));
-
-                    b.Property<string>("ButtonText")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ButtonUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Subtitle")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BannerId");
-
-                    b.ToTable("Banners");
                 });
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Users.UserProfile", b =>
@@ -352,10 +583,15 @@ namespace PrestivaCars.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("VehicleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VehicleOfferId")
                         .HasColumnType("int");
 
                     b.HasKey("SavedOfferId");
+
+                    b.HasIndex("VehicleId");
 
                     b.HasIndex("VehicleOfferId");
 
@@ -370,18 +606,11 @@ namespace PrestivaCars.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
 
-                    b.Property<string>("BodyType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("BodyTypeId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Color")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -400,9 +629,8 @@ namespace PrestivaCars.Data.Migrations
                     b.Property<int>("EngineCapacity")
                         .HasColumnType("int");
 
-                    b.Property<string>("FuelType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("FuelTypeId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -422,12 +650,12 @@ namespace PrestivaCars.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RegistrationNumber")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("TransmissionType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("TransmissionTypeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -439,13 +667,27 @@ namespace PrestivaCars.Data.Migrations
                     b.Property<int>("VehicleCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("VehicleColourId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Vin")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired()
+                        .HasMaxLength(17)
+                        .HasColumnType("nvarchar(17)");
 
                     b.HasKey("VehicleId");
 
+                    b.HasIndex("BodyTypeId");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("FuelTypeId");
+
+                    b.HasIndex("TransmissionTypeId");
+
                     b.HasIndex("VehicleCategoryId");
+
+                    b.HasIndex("VehicleColourId");
 
                     b.ToTable("Vehicles");
                 });
@@ -573,7 +815,8 @@ namespace PrestivaCars.Data.Migrations
 
                     b.HasKey("VehicleOfferId");
 
-                    b.HasIndex("VehicleId");
+                    b.HasIndex("VehicleId")
+                        .IsUnique();
 
                     b.ToTable("VehicleOffers");
                 });
@@ -627,6 +870,10 @@ namespace PrestivaCars.Data.Migrations
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.VehicleImage", b =>
                 {
+                    b.HasOne("PrestivaCars.Data.Data.Vehicles.Vehicle", null)
+                        .WithMany("VehicleImages")
+                        .HasForeignKey("VehicleId");
+
                     b.HasOne("PrestivaCars.Data.Data.Vehicles.VehicleOffer", "VehicleOffer")
                         .WithMany("VehicleImages")
                         .HasForeignKey("VehicleOfferId")
@@ -638,6 +885,10 @@ namespace PrestivaCars.Data.Migrations
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Vehicles.SavedOffer", b =>
                 {
+                    b.HasOne("PrestivaCars.Data.Data.Vehicles.Vehicle", null)
+                        .WithMany("SavedOffers")
+                        .HasForeignKey("VehicleId");
+
                     b.HasOne("PrestivaCars.Data.Data.Vehicles.VehicleOffer", "VehicleOffer")
                         .WithMany("SavedOffers")
                         .HasForeignKey("VehicleOfferId")
@@ -649,20 +900,60 @@ namespace PrestivaCars.Data.Migrations
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Vehicles.Vehicle", b =>
                 {
+                    b.HasOne("PrestivaCars.Data.Data.Catalog.BodyType", "BodyType")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("BodyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PrestivaCars.Data.Data.Catalog.Brand", "Brand")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PrestivaCars.Data.Data.Catalog.FuelType", "FuelType")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("FuelTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PrestivaCars.Data.Data.Catalog.TransmissionType", "TransmissionType")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("TransmissionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PrestivaCars.Data.Data.Vehicles.VehicleCategory", "VehicleCategory")
                         .WithMany("Vehicle")
                         .HasForeignKey("VehicleCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PrestivaCars.Data.Data.Catalog.VehicleColour", "VehicleColour")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("VehicleColourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BodyType");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("FuelType");
+
+                    b.Navigation("TransmissionType");
+
                     b.Navigation("VehicleCategory");
+
+                    b.Navigation("VehicleColour");
                 });
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Vehicles.VehicleOffer", b =>
                 {
                     b.HasOne("PrestivaCars.Data.Data.Vehicles.Vehicle", "Vehicle")
-                        .WithMany("VehicleOffers")
-                        .HasForeignKey("VehicleId")
+                        .WithOne("VehicleOffer")
+                        .HasForeignKey("PrestivaCars.Data.Data.Vehicles.VehicleOffer", "VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -688,6 +979,31 @@ namespace PrestivaCars.Data.Migrations
                     b.Navigation("VehicleOffer");
                 });
 
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.BodyType", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.Brand", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.FuelType", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.TransmissionType", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.VehicleColour", b =>
+                {
+                    b.Navigation("Vehicles");
+                });
+
             modelBuilder.Entity("PrestivaCars.Data.Data.Catalog.VehicleFeature", b =>
                 {
                     b.Navigation("VehicleOfferFeatures");
@@ -695,7 +1011,12 @@ namespace PrestivaCars.Data.Migrations
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Vehicles.Vehicle", b =>
                 {
-                    b.Navigation("VehicleOffers");
+                    b.Navigation("SavedOffers");
+
+                    b.Navigation("VehicleImages");
+
+                    b.Navigation("VehicleOffer")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PrestivaCars.Data.Data.Vehicles.VehicleCategory", b =>

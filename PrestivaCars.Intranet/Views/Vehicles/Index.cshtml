@@ -31,7 +31,7 @@
                     <!-- SEARCH + CATEGORY -->
                     <div class="col-md-6">
                         <label class="form-label">Search :</label>
-                        <input type="text" name="searchString" class="form-control" placeholder="Brand, model, title..." />
+                        <input type="text" name="searchString" class="form-control" placeholder="Brand, model, VIN, registration number..." />
                     </div>
 
                     <div class="col-md-6">
@@ -94,7 +94,7 @@
 <div class="card shadow-sm border-0">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table table-bordered table-hover align-middle mb-0">
                 <thead class="table-dark">
                     <tr>
                         <th class="text-center align-middle">Brand</th>
@@ -118,46 +118,59 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Brand)
+                            <td class="text-center align-middle">
+                                @item.Brand.Name
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.Model)
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.ProductionYear)
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.Mileage)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FuelType)
+
+                            <td class="text-center align-middle">
+                                @item.FuelType.Name
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransmissionType)
+
+                            <td class="text-center align-middle">
+                                @item.TransmissionType.Name
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BodyType)
+
+                            <td class="text-center align-middle">
+                                @item.BodyType.Name
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Color)
+
+                            <td class="text-center align-middle">
+                                @item.VehicleColour.ColourName
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.EngineCapacity)
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.PowerHp)
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.Vin)
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @Html.DisplayFor(modelItem => item.RegistrationNumber)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.VehicleCategory.Name)
+
+                            <td class="text-center align-middle">
+                                @item.VehicleCategory.Name
                             </td>
-                            <td>
+
+                            <td class="text-center align-middle">
                                 @if (item.IsActive)
                                 {
                                     <span class="badge bg-success-subtle text-success">Active</span>
@@ -167,11 +180,16 @@
                                     <span class="badge bg-secondary-subtle text-secondary">Inactive</span>
                                 }
                             </td>
-                            <td class="text-end">
+
+                            <td class="text-end align-middle">
                                 <div class="btn-group" role="group">
                                     <a asp-action="Edit" asp-route-id="@item.VehicleId" class="btn btn-sm btn-outline-primary">Edit</a>
                                     <a asp-action="Details" asp-route-id="@item.VehicleId" class="btn btn-sm btn-outline-secondary">Details</a>
-                                    <button type="button" class="btn btn-sm btn-outline-danger js-delete-btn" data-id="@item.VehicleId">Delete</button>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger js-delete-btn"
+                                            data-delete-url="@Url.Action("Delete", "Vehicles", new { id = item.VehicleId })">
+                                        Delete
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -183,8 +201,8 @@
 </div>
 
 <!-- DELETE MODAL -->
-<div class="modal fade" id="deleteVehicleModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content" id="deleteVehicleModalContent"></div>
+        <div class="modal-content" id="deleteModalContent"></div>
     </div>
 </div>

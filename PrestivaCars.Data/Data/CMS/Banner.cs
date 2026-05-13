@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using PrestivaCars.Data.Data.Common;
 
-namespace PrestivaCars.Data.Data.Cms
+namespace PrestivaCars.Data.Data.CMS
 {
     public class Banner : BaseEntity
     {

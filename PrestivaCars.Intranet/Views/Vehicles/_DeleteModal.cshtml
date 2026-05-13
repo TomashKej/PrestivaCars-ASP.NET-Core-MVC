@@ -11,21 +11,35 @@
     </p>
 
     <div class="p-3 rounded-3 bg-light border">
-        <strong>@Model.Brand @Model.Model (@Model.ProductionYear)</strong>
+        <strong>@(Model.Brand?.Name ?? "No brand") @Model.Model (@Model.ProductionYear)</strong>
     </div>
 
     <div class="mt-3 small text-muted">
         <div><strong>VIN:</strong> @Model.Vin</div>
         <div><strong>Registration number:</strong> @Model.RegistrationNumber</div>
-        <div><strong>Category:</strong> @Model.VehicleCategory?.Name</div>
+        <div><strong>Category:</strong> @(Model.VehicleCategory?.Name ?? "No category")</div>
+        <div><strong>Fuel type:</strong> @(Model.FuelType?.Name ?? "No fuel type")</div>
+        <div><strong>Transmission:</strong> @(Model.TransmissionType?.Name ?? "No transmission")</div>
+        <div><strong>Body type:</strong> @(Model.BodyType?.Name ?? "No body type")</div>
+        <div><strong>Colour:</strong> @(Model.VehicleColour?.ColourName ?? "No colour")</div>
     </div>
+
+    <p class="small text-muted mt-3 mb-0">
+        This action will mark the vehicle as inactive.
+    </p>
 </div>
 
 <div class="modal-footer border-0 pt-0">
     <form asp-action="Delete" method="post" class="d-flex gap-2">
         @Html.AntiForgeryToken()
         <input type="hidden" name="id" value="@Model.VehicleId" />
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-danger">Delete vehicle</button>
+
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Cancel
+        </button>
+
+        <button type="submit" class="btn btn-danger">
+            Delete vehicle
+        </button>
     </form>
 </div>

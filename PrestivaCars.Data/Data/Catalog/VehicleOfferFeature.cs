@@ -13,12 +13,12 @@ namespace PrestivaCars.Data.Data.Vehicles
         [Display(Name = "Vehicle Offer")]
         public int VehicleOfferId { get; set; }
 
-        public VehicleOffer? VehicleOffer { get; set; }
+        public VehicleOffer VehicleOffer { get; set; } = null!;
 
         [Required]
         [Display(Name = "Vehicle Feature")]
         public int VehicleFeatureId { get; set; }
 
-        public VehicleFeature? VehicleFeature { get; set; }
+        public VehicleFeature VehicleFeature { get; set; } = null!;
     }
 }

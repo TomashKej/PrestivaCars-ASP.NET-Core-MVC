@@ -22,6 +22,6 @@ namespace PrestivaCars.Data.Data.Vehicles
         public int VehicleOfferId { get; set; }
 
         // Relation to VehicleOffer - many-to-one
-        public VehicleOffer? VehicleOffer { get; set; }
+        public VehicleOffer VehicleOffer { get; set; } = null!;
     }
 }

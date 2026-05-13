@@ -1,18 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrestivaCars.Data.Data.Catalog;
-using PrestivaCars.Data.Data.Cms;
 using PrestivaCars.Data.Data.CMS;
 using PrestivaCars.Data.Data.Common;
 using PrestivaCars.Data.Data.Users;
 using PrestivaCars.Data.Data.Vehicles;
-using System.Reflection;
+
 
 namespace PrestivaCars.Data.Data
 {
     /// <summary>
-    /// The folowing model represents the database context for the PrestivaCars application.
-    /// It includes DbSet properties for the Page, Vehicle, VehicleCategory, VehicleOffer, and SavedOffer entities.
-    /// The purpose of this context is to manage the connection to the database and provide access to the data through the defined DbSet properties.
+    /// Represents the main database context for the PrestivaCars application.
+    /// This class is responsible for managing database access and exposing DbSet properties
+    /// for application entities such as vehicles, offers, categories, users, banners and catalogue data.
     /// </summary>
     public class PrestivaCarsContext : DbContext
     {
@@ -30,28 +29,50 @@ namespace PrestivaCars.Data.Data
         public DbSet<VehicleOfferFeature> VehicleOfferFeatures { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Banner> Banners { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<FuelType> FuelTypes { get; set; }
+        public DbSet<TransmissionType> TransmissionTypes { get; set; }
+        public DbSet<BodyType> BodyTypes { get; set; }
+        public DbSet<VehicleColour> VehicleColours { get; set; }
 
         /// <summary>
-        /// The following methid overrides the SaveChanges method of the DbContext class to automatically set audit fields (CreatedAt, CreatedBy, UpdatedAt, UpdatedBy) for entities that inherit from the BaseEntity class.
+        /// Saves changes to the database and automatically updates audit fields
+        /// before the changes are written.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The number of records affected in the database.</returns>
         public override int SaveChanges()
         {
             SetAuditFields();
             return base.SaveChanges();
         }
 
+
         /// <summary>
-        /// The following method overrides the SaveChangesAsync method of the DbContext class to automatically set audit fields (CreatedAt, CreatedBy, UpdatedAt, UpdatedBy) for entities that inherit from the BaseEntity class when saving changes asynchronously.
+        /// Saves changes to the database asynchronously and automatically updates audit fields
+        /// before the changes are written.
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="cancellationToken">
+        /// Token used to cancel the asynchronous save operation if needed.
+        /// </param>
+        /// <returns>
+        /// A task containing the number of records affected in the database.
+        /// </returns>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             SetAuditFields();
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Automatically sets audit fields for all tracked entities that inherit from BaseEntity.
+        /// This method handles creation, update and soft delete information before saving changes.
+        /// </summary>
+        /// <remarks>
+        /// For new entities, it sets CreatedAt, CreatedBy and marks the entity as active.
+        /// For updated entities, it sets UpdatedAt and UpdatedBy while protecting CreatedAt and CreatedBy.
+        /// For deleted entities, it changes the operation from a physical delete to a soft delete by
+        /// setting IsActive to false and filling DeletedAt and DeletedBy.
+        /// </remarks>
         private void SetAuditFields()
         {
             var entries = ChangeTracker.Entries<BaseEntity>();
@@ -74,6 +95,18 @@ namespace PrestivaCars.Data.Data
                     entry.Entity.UpdatedBy = currentUser;
 
                     // Prevent modification of CreatedAt and CreatedBy fields when updating an existing entity
+                    entry.Property(p => p.CreatedAt).IsModified = false;
+                    entry.Property(p => p.CreatedBy).IsModified = false;
+                }
+
+                if (entry.State == EntityState.Deleted)
+                {
+                    entry.State = EntityState.Modified;
+
+                    entry.Entity.IsActive = false;
+                    entry.Entity.DeletedAt = now;
+                    entry.Entity.DeletedBy = currentUser;
+
                     entry.Property(p => p.CreatedAt).IsModified = false;
                     entry.Property(p => p.CreatedBy).IsModified = false;
                 }

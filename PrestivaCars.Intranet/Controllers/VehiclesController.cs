@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PrestivaCars.Data.Data;
 using PrestivaCars.Data.Data.Vehicles;
+using PrestivaCars.Intranet.Services;
 
 namespace PrestivaCars.Intranet.Controllers
 {
     public class VehiclesController : Controller
     {
         private readonly PrestivaCarsContext _context;
+        private readonly VehicleFormService _vehicleFormService;
 
-        public VehiclesController(PrestivaCarsContext context)
+        public VehiclesController(PrestivaCarsContext context, VehicleFormService vehicleFormService)
         {
             _context = context;
+            _vehicleFormService = vehicleFormService;
         }
 
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var prestivaCarsContext = _context.Vehicles.Include(v => v.VehicleCategory);
+            var prestivaCarsContext = _context.Vehicles
+                .Include(v => v.VehicleCategory)
+                .Include(v => v.Brand)
+                .Include(v => v.FuelType)
+                .Include(v => v.TransmissionType)
+                .Include(v => v.BodyType)
+                .Include(v => v.VehicleColour);
             return View(await prestivaCarsContext.ToListAsync());
         }
 
@@ -36,7 +41,13 @@ namespace PrestivaCars.Intranet.Controllers
 
             var vehicle = await _context.Vehicles
                 .Include(v => v.VehicleCategory)
+                .Include(v => v.Brand)
+                .Include(v => v.FuelType)
+                .Include(v => v.TransmissionType)
+                .Include(v => v.BodyType)
+                .Include(v => v.VehicleColour)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
+
             if (vehicle == null)
             {
                 return NotFound();
@@ -48,7 +59,8 @@ namespace PrestivaCars.Intranet.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name");
+            //ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name");
+            _vehicleFormService.PrepareSelectList(ViewData);
             return View();
         }
 
@@ -57,15 +69,18 @@ namespace PrestivaCars.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleId,Brand,Model,ProductionYear,Mileage,FuelType,TransmissionType,BodyType,Color,EngineCapacity,PowerHp,Vin,RegistrationNumber,VehicleCategoryId,IsActive")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("VehicleId,Model,ProductionYear,Mileage,EngineCapacity,PowerHp,Vin,RegistrationNumber,VehicleCategoryId,BrandId,FuelTypeId,TransmissionTypeId,BodyTypeId,VehicleColourId,IsActive")] Vehicle vehicle)
         {
+            _vehicleFormService.RemoveNavigationValidation(ModelState);
+
             if (ModelState.IsValid)
             {
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name", vehicle.VehicleCategoryId);
+
+            _vehicleFormService.PrepareSelectList(ViewData, vehicle);
             return View(vehicle);
         }
 
@@ -78,11 +93,12 @@ namespace PrestivaCars.Intranet.Controllers
             }
 
             var vehicle = await _context.Vehicles.FindAsync(id);
+
             if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name", vehicle.VehicleCategoryId);
+            _vehicleFormService.PrepareSelectList(ViewData, vehicle);
             return View(vehicle);
         }
 
@@ -91,12 +107,14 @@ namespace PrestivaCars.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,Brand,Model,ProductionYear,Mileage,FuelType,TransmissionType,BodyType,Color,EngineCapacity,PowerHp,Vin,RegistrationNumber,VehicleCategoryId,IsActive")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,Model,ProductionYear,Mileage,EngineCapacity,PowerHp,Vin,RegistrationNumber,VehicleCategoryId,BrandId,FuelTypeId,TransmissionTypeId,BodyTypeId,VehicleColourId,IsActive")] Vehicle vehicle)
         {
             if (id != vehicle.VehicleId)
             {
                 return NotFound();
             }
+
+            _vehicleFormService.RemoveNavigationValidation(ModelState);
 
             if (ModelState.IsValid)
             {
@@ -118,7 +136,7 @@ namespace PrestivaCars.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name", vehicle.VehicleCategoryId);
+            _vehicleFormService.PrepareSelectList(ViewData, vehicle);
             return View(vehicle);
         }
 
@@ -132,7 +150,13 @@ namespace PrestivaCars.Intranet.Controllers
 
             var vehicle = await _context.Vehicles
                 .Include(v => v.VehicleCategory)
-                .FirstOrDefaultAsync(m => m.VehicleId == id);
+                .Include(v => v.Brand)
+                .Include(v => v.FuelType)
+                .Include(v => v.TransmissionType)
+                .Include(v => v.BodyType)
+                .Include(v => v.VehicleColour)
+                .FirstOrDefaultAsync(m => m.VehicleId == id && m.IsActive);
+
             if (vehicle == null)
             {
                 return NotFound();
