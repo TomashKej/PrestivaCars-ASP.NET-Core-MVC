@@ -1,0 +1,168 @@
+﻿@model PrestivaCars.Data.Data.Vehicles.VehicleOffer
+
+@{
+    ViewData["Title"] = Model.Title;
+
+    var mainImage = Model.VehicleImages?
+        .Where(i => i.IsActive)
+        .OrderByDescending(i => i.IsMain)
+        .ThenBy(i => i.Position)
+        .FirstOrDefault();
+
+    var otherImages = Model.VehicleImages?
+        .Where(i => i.IsActive && i.VehicleImageId != mainImage?.VehicleImageId)
+        .OrderBy(i => i.Position)
+        .ToList();
+}
+
+<section class="prestiva-details-hero">
+    <div class="container">
+        <a asp-controller="Offers" asp-action="Index" class="prestiva-back-link">
+            <i class="bi bi-arrow-left"></i>
+            Back to cars
+        </a>
+
+        <div class="prestiva-details-heading">
+            <div>
+                @if (Model.IsFeatured)
+                {
+                    <span class="prestiva-hero-label">Featured offer</span>
+                }
+
+                <h1>@Model.Title</h1>
+
+                <p>
+                    @Model.Vehicle.Brand.Name @Model.Vehicle.Model
+                    <span>•</span>
+                    @Model.Vehicle.ProductionYear
+                    <span>•</span>
+                    @Model.Location
+                </p>
+            </div>
+
+            <div class="prestiva-details-price-box">
+                <span>Price</span>
+                <strong>@Model.Price.ToString("C0")</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="prestiva-details-section">
+    <div class="container">
+        <div class="prestiva-details-layout">
+
+            <div class="prestiva-details-left">
+                <div class="prestiva-details-main-image">
+                    @if (mainImage != null)
+                    {
+                        <img src="@mainImage.ImagePath" alt="@mainImage.AltText" />
+                    }
+                    else
+                    {
+                        <div class="prestiva-offer-image-placeholder details-placeholder">
+                            <i class="bi bi-car-front"></i>
+                            <span>No image available</span>
+                        </div>
+                    }
+                </div>
+
+                @if (otherImages != null && otherImages.Any())
+                {
+                    <div class="prestiva-details-gallery">
+                        @foreach (var image in otherImages)
+                        {
+                            <div class="prestiva-gallery-thumb">
+                                <img src="@image.ImagePath" alt="@image.AltText" />
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div class="prestiva-details-card mt-4">
+                    <h2>Description</h2>
+                    <p class="prestiva-details-description">
+                        @Model.Description
+                    </p>
+                </div>
+            </div>
+
+            <aside class="prestiva-details-sidebar">
+                <div class="prestiva-details-card">
+                    <h2>Vehicle summary</h2>
+
+                    <div class="prestiva-summary-grid">
+                        <div>
+                            <span>Brand</span>
+                            <strong>@Model.Vehicle.Brand.Name</strong>
+                        </div>
+
+                        <div>
+                            <span>Model</span>
+                            <strong>@Model.Vehicle.Model</strong>
+                        </div>
+
+                        <div>
+                            <span>Year</span>
+                            <strong>@Model.Vehicle.ProductionYear</strong>
+                        </div>
+
+                        <div>
+                            <span>Mileage</span>
+                            <strong>@Model.Vehicle.Mileage.ToString("N0") mi</strong>
+                        </div>
+
+                        <div>
+                            <span>Fuel</span>
+                            <strong>@Model.Vehicle.FuelType.Name</strong>
+                        </div>
+
+                        <div>
+                            <span>Transmission</span>
+                            <strong>@Model.Vehicle.TransmissionType.Name</strong>
+                        </div>
+
+                        <div>
+                            <span>Body type</span>
+                            <strong>@Model.Vehicle.BodyType.Name</strong>
+                        </div>
+
+                        <div>
+                            <span>Colour</span>
+                            <strong>@Model.Vehicle.VehicleColour.ColourName</strong>
+                        </div>
+
+                        <div>
+                            <span>Category</span>
+                            <strong>@Model.Vehicle.VehicleCategory.Name</strong>
+                        </div>
+
+                        <div>
+                            <span>Engine</span>
+                            <strong>@Model.Vehicle.EngineCapacity cc</strong>
+                        </div>
+
+                        <div>
+                            <span>Power</span>
+                            <strong>@Model.Vehicle.PowerHp HP</strong>
+                        </div>
+
+                        <div>
+                            <span>Location</span>
+                            <strong>@Model.Location</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prestiva-contact-card">
+                    <h3>Interested in this car?</h3>
+                    <p>Contact PrestivaCars to arrange a viewing or ask for more details.</p>
+
+                    <a href="mailto:contact@prestivacars.com" class="btn btn-primary w-100">
+                        Contact dealer
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>

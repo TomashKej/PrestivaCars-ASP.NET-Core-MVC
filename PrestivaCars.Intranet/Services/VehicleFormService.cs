@@ -14,7 +14,16 @@ namespace PrestivaCars.Intranet.Services
         { 
             _context = context;
         }
-
+        /// <summary>
+        /// Populates the specified view data dictionary with select lists for vehicle-related dropdowns, optionally
+        /// pre-selecting values based on the provided vehicle.
+        /// </summary>
+        /// <remarks>This method is typically used in controller actions to prepare data for vehicle
+        /// creation or editing views. The select lists are populated with active entities only.</remarks>
+        /// <param name="viewData">The view data dictionary to populate with select lists for vehicle categories, brands, fuel types,
+        /// transmission types, body types, and colors. Must not be null.</param>
+        /// <param name="vehicle">An optional vehicle whose property values are used to pre-select items in the corresponding select lists. If
+        /// null, no items are pre-selected.</param>
         public void PrepareSelectList(ViewDataDictionary viewData, Vehicle? vehicle = null)
         {
             viewData["VehicleCategoryId"] = new SelectList(

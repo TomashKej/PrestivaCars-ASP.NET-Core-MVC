@@ -1,0 +1,13 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.Vehicles.VehicleCategory>
+
+@foreach (var item in Model)
+{
+    <li class="nav-item">
+        <a class="nav-link"
+               asp-controller="Offers"
+               asp-action="Category"
+               asp-route-id="@item.VehicleCategoryId">
+            @item.Name
+        </a>
+    </li>
+}

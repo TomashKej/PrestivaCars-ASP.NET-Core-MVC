@@ -59,7 +59,6 @@ namespace PrestivaCars.Intranet.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            //ViewData["VehicleCategoryId"] = new SelectList(_context.VehicleCategories, "VehicleCategoryId", "Name");
             _vehicleFormService.PrepareSelectList(ViewData);
             return View();
         }
@@ -162,7 +161,7 @@ namespace PrestivaCars.Intranet.Controllers
                 return NotFound();
             }
 
-            //return View(vehicle);
+            //return partialView(vehicle);
             return PartialView("_DeleteModal", vehicle);
         }
 

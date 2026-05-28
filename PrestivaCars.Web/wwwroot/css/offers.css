@@ -1,0 +1,532 @@
+﻿/* ================================
+   PrestivaCars Web - Offers
+   AutoTrader inspired layout
+================================ */
+
+.prestiva-search-hero,
+.prestiva-category-hero {
+    background: linear-gradient(135deg, #07111f 0%, #10233f 55%, #164a8b 100%);
+    color: #ffffff;
+    border-radius: 0 0 34px 34px;
+    margin-bottom: 34px;
+}
+
+.prestiva-search-hero {
+    padding: 58px 0;
+}
+
+.prestiva-category-hero {
+    padding: 46px 0;
+}
+
+.prestiva-hero-content {
+    max-width: 760px;
+}
+
+.prestiva-hero-label {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.prestiva-search-hero h1,
+.prestiva-category-hero h1 {
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    margin-bottom: 14px;
+}
+
+.prestiva-search-hero p,
+.prestiva-category-hero p {
+    max-width: 720px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.08rem;
+    margin-bottom: 0;
+}
+
+.prestiva-offers-section {
+    padding-bottom: 56px;
+}
+
+.prestiva-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+    .prestiva-results-header h2 {
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 4px;
+    }
+
+    .prestiva-results-header p {
+        color: #6b7280;
+        margin-bottom: 0;
+    }
+
+.prestiva-sort-box {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 10px 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+    font-size: 0.9rem;
+}
+
+    .prestiva-sort-box span {
+        color: #6b7280;
+    }
+
+    .prestiva-sort-box strong {
+        color: #111827;
+    }
+
+.prestiva-offers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.prestiva-offer-card {
+    display: grid;
+    grid-template-columns: 310px 1fr;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+    .prestiva-offer-card:hover {
+        transform: translateY(-3px);
+        border-color: #c7d2fe;
+        box-shadow: 0 24px 62px rgba(15, 23, 42, 0.13);
+    }
+
+.prestiva-offer-image-wrapper {
+    position: relative;
+    min-height: 230px;
+    background: #111827;
+    overflow: hidden;
+}
+
+.prestiva-offer-image {
+    width: 100%;
+    height: 100%;
+    min-height: 230px;
+    object-fit: cover;
+    display: block;
+}
+
+.prestiva-offer-image-placeholder {
+    min-height: 230px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.78);
+    background: linear-gradient(135deg, #111827, #374151);
+    font-weight: 600;
+}
+
+    .prestiva-offer-image-placeholder i {
+        font-size: 2.4rem;
+    }
+
+.prestiva-featured-badge {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    background: #ffffff;
+    color: #1d4ed8;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.25);
+}
+
+.prestiva-offer-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.prestiva-offer-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.prestiva-offer-subtitle {
+    color: #6b7280;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+    .prestiva-offer-subtitle span {
+        color: #cbd5e1;
+        margin: 0 6px;
+    }
+
+.prestiva-offer-price {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: #111827;
+    white-space: nowrap;
+}
+
+.prestiva-spec-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 18px 0;
+}
+
+.prestiva-spec-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 8px 12px;
+    color: #374151;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+    .prestiva-spec-item i {
+        color: #2563eb;
+        font-size: 0.95rem;
+    }
+
+.prestiva-offer-description {
+    color: #4b5563;
+    margin-bottom: 0;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.prestiva-offer-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.prestiva-details-btn {
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+    .prestiva-offer-card {
+        grid-template-columns: 1fr;
+    }
+
+    .prestiva-offer-image-wrapper,
+    .prestiva-offer-image,
+    .prestiva-offer-image-placeholder {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .prestiva-search-hero,
+    .prestiva-category-hero {
+        padding: 38px 0;
+        border-radius: 0 0 24px 24px;
+    }
+
+    .prestiva-offer-content {
+        padding: 18px;
+    }
+
+    .prestiva-offer-price {
+        font-size: 1.18rem;
+    }
+
+    .prestiva-offer-actions {
+        justify-content: stretch;
+    }
+
+    .prestiva-details-btn {
+        width: 100%;
+    }
+}
+
+/* ================================
+   PrestivaCars Web - Offer Details
+================================ */
+
+.prestiva-details-hero {
+    background: linear-gradient(135deg, #07111f 0%, #10233f 55%, #164a8b 100%);
+    color: #fff;
+    margin-bottom: 34px;
+    border-radius: 0 0 34px 34px;
+}
+
+.prestiva-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.86);
+    text-decoration: none;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.prestiva-back-link:hover {
+    color: #feeded;
+}
+
+.prestiva-details-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+    .prestiva-details-heading h1 {
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        margin-bottom: 12px;
+    }
+
+    .prestiva-details-heading p {
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 1.05rem;
+        margin-bottom: 10px;
+    }
+
+        .prestiva-details-heading p span {
+            margin: 0 8px;
+            color: rgba(255, 255, 255, 0.42);
+        }
+
+.prestiva-details-price-box {
+    background: #ffffff;
+    color: #111827;
+    text-align: center;
+    border-radius: 24px;
+    padding: 10px 26px;
+    min-width: 210px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.24);
+    margin-bottom: 10px;
+}
+
+    .prestiva-details-price-box span {
+        display: block;
+        color: #6b7280;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .prestiva-details-price-box strong {
+        font-size: 1.8rem;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+    }
+
+.prestiva-details-section {
+    padding-bottom: 64px;
+}
+
+.prestiva-details-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 26px;
+    align-items: start;
+}
+
+.prestiva-details-left {
+    min-width: 0;
+}
+
+.prestiva-details-main-image {
+    background: #111827;
+    border-radius: 28px;
+    overflow: hidden;
+    height: 520px;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.14);
+}
+
+    .prestiva-details-main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+.details-placeholder {
+    min-height: 520px;
+}
+
+.prestiva-details-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.prestiva-gallery-thumb {
+    height: 120px;
+    background: #111827;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+}
+
+    .prestiva-gallery-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+.prestiva-details-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 26px;
+    padding: 26px;
+    box-shadow: 0 18px 46px rgba(15, 23, 42, 0.07);
+}
+
+    .prestiva-details-card h2 {
+        font-size: 1.25rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        margin-bottom: 18px;
+    }
+
+.prestiva-details-description {
+    color: #4b5563;
+    line-height: 1.75;
+    margin-bottom: 0;
+}
+
+.prestiva-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+    .prestiva-summary-grid div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 13px 15px;
+    }
+
+    .prestiva-summary-grid span {
+        color: #6b7280;
+        font-size: 0.86rem;
+        font-weight: 600;
+    }
+
+    .prestiva-summary-grid strong {
+        color: #111827;
+        font-size: 0.92rem;
+        text-align: right;
+    }
+
+.prestiva-contact-card {
+    margin-top: 18px;
+    background: #111827;
+    color: #ffffff;
+    border-radius: 26px;
+    padding: 26px;
+    box-shadow: 0 20px 54px rgba(15, 23, 42, 0.20);
+}
+
+    .prestiva-contact-card h3 {
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        margin-bottom: 10px;
+    }
+
+    .prestiva-contact-card p {
+        color: rgba(255, 255, 255, 0.72);
+        margin-bottom: 20px;
+    }
+
+@media (max-width: 991.98px) {
+    .prestiva-details-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .prestiva-details-sidebar {
+        order: -1;
+    }
+
+    .prestiva-details-main-image,
+    .details-placeholder {
+        height: 390px;
+        min-height: 390px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .prestiva-details-hero {
+        padding: 28px 0 38px;
+        border-radius: 0 0 24px 24px;
+    }
+
+    .prestiva-details-price-box {
+        width: 100%;
+    }
+
+    .prestiva-details-main-image,
+    .details-placeholder {
+        height: 280px;
+        min-height: 280px;
+    }
+
+    .prestiva-details-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .prestiva-gallery-thumb {
+        height: 100px;
+    }
+
+    .prestiva-details-card,
+    .prestiva-contact-card {
+        padding: 20px;
+        border-radius: 22px;
+    }
+}

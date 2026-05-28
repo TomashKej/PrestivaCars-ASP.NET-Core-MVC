@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.Vehicles.VehicleOffer>
+
+@{
+    ViewData["Title"] = ViewBag.CategoryName ?? "Category";
+}
+
+<section class="prestiva-category-hero">
+    <div class="container">
+        <span class="prestiva-hero-label">Vehicle category</span>
+
+        <h1>@ViewBag.CategoryName</h1>
+
+        @if (!string.IsNullOrWhiteSpace(ViewBag.CategoryDescription as string))
+        {
+            <p>@ViewBag.CategoryDescription</p>
+        }
+    </div>
+</section>
+
+<section class="prestiva-offers-section">
+    <div class="container">
+        <div class="prestiva-results-header">
+            <div>
+                <h2>Available offers</h2>
+                <p>@Model.Count() offers in this category</p>
+            </div>
+
+            <a asp-controller="Offers" asp-action="Index" class="btn btn-outline-secondary">
+                All cars
+            </a>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">
+                There are no active offers in this category.
+            </div>
+        }
+        else
+        {
+            <div class="prestiva-offers-list">
+                @foreach (var offer in Model)
+                {
+                    @await Html.PartialAsync("_OfferCard", offer)
+                }
+            </div>
+        }
+    </div>
+</section>

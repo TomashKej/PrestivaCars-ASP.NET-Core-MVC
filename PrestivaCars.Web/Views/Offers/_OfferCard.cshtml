@@ -1,0 +1,103 @@
+﻿@model PrestivaCars.Data.Data.Vehicles.VehicleOffer
+
+@{
+    var mainImage = Model.VehicleImages?
+        .Where(i => i.IsActive)
+        .OrderByDescending(i => i.IsMain)
+        .ThenBy(i => i.Position)
+        .FirstOrDefault();
+}
+
+<article class="prestiva-offer-card">
+    <div class="prestiva-offer-image-wrapper">
+        @if (mainImage != null)
+        {
+            <img src="@mainImage.ImagePath"
+                 alt="@mainImage.AltText"
+                 class="prestiva-offer-image" />
+        }
+        else
+        {
+            <div class="prestiva-offer-image-placeholder">
+                <i class="bi bi-car-front"></i>
+                <span>No image available</span>
+            </div>
+        }
+
+        @if (Model.IsFeatured)
+        {
+            <span class="prestiva-featured-badge">
+                Featured
+            </span>
+        }
+    </div>
+
+    <div class="prestiva-offer-content">
+        <div class="prestiva-offer-main">
+            <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                <div>
+                    <h2 class="prestiva-offer-title">
+                        @Model.Title
+                    </h2>
+
+                    <p class="prestiva-offer-subtitle">
+                        @Model.Vehicle.Brand.Name @Model.Vehicle.Model
+                        <span>•</span>
+                        @Model.Vehicle.ProductionYear
+                        <span>•</span>
+                        @Model.Location
+                    </p>
+                </div>
+
+                <div class="prestiva-offer-price">
+                    @Model.Price.ToString("C0")
+                </div>
+            </div>
+
+            <div class="prestiva-spec-list">
+                <div class="prestiva-spec-item">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>@Model.Vehicle.Mileage.ToString("N0") mi</span>
+                </div>
+
+                <div class="prestiva-spec-item">
+                    <i class="bi bi-fuel-pump"></i>
+                    <span>@Model.Vehicle.FuelType.Name</span>
+                </div>
+
+                <div class="prestiva-spec-item">
+                    <i class="bi bi-gear"></i>
+                    <span>@Model.Vehicle.TransmissionType.Name</span>
+                </div>
+
+                <div class="prestiva-spec-item">
+                    <i class="bi bi-car-front"></i>
+                    <span>@Model.Vehicle.BodyType.Name</span>
+                </div>
+
+                <div class="prestiva-spec-item">
+                    <i class="bi bi-palette"></i>
+                    <span>@Model.Vehicle.VehicleColour.ColourName</span>
+                </div>
+
+                <div class="prestiva-spec-item">
+                    <i class="bi bi-tags"></i>
+                    <span>@Model.Vehicle.VehicleCategory.Name</span>
+                </div>
+            </div>
+
+            <p class="prestiva-offer-description">
+                @Model.Description
+            </p>
+        </div>
+
+        <div class="prestiva-offer-actions">
+            <a asp-controller="Offers"
+                   asp-action="Details"
+                   asp-route-id="@Model.VehicleOfferId"
+                   class="btn btn-primary prestiva-details-btn">
+                View details
+            </a>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.Vehicles.VehicleOffer>
+
+@{
+    ViewData["Title"] = "Browse cars";
+}
+
+<section class="prestiva-search-hero">
+    <div class="container">
+        <div class="prestiva-hero-content">
+            <span class="prestiva-hero-label">PrestivaCars</span>
+
+            <h1>Find your next car</h1>
+
+            <p>
+                Browse selected vehicle offers with clear details, verified specifications and professional presentation.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="prestiva-offers-section">
+    <div class="container">
+        <div class="prestiva-results-header">
+            <div>
+                <h2>Cars for sale</h2>
+                <p>@Model.Count() active offers found</p>
+            </div>
+
+            <div class="prestiva-sort-box">
+                <span>Sort by:</span>
+                <strong>Newest first</strong>
+            </div>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">
+                There are no active vehicle offers available at the moment.
+            </div>
+        }
+        else
+        {
+            <div class="prestiva-offers-list">
+                @foreach (var offer in Model)
+                {
+                    @await Html.PartialAsync("_OfferCard", offer)
+                }
+            </div>
+        }
+    </div>
+</section>
