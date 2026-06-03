@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PrestivaCars.Web</title>
     <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PrestivaCars.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/offers.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -37,34 +40,58 @@
                     </button>
 
                 <div class="collapse navbar-collapse" id="mainNavbar">
-                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <ul class="navbar-nav prestiva-main-nav align-items-lg-center mx-lg-auto">
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Offers" asp-action="Index">
                                 Browse Cars
                             </a>
                         </li>
 
-                        @await Component.InvokeAsync("VehicleCategoriesMenu")
-
-                        @if (ViewBag.PageModel != null)
-                        {
-                            @await Html.PartialAsync("_References", (IEnumerable<PrestivaCars.Data.Data.CMS.Page>)ViewBag.PageModel)
-                        }
+                        @await Component.InvokeAsync("PagesMenu")
                     </ul>
 
                     <!-- RIGHT SIDE: saved + profile -->
                     <div class="d-flex align-items-center prestiva-actions">
-                        <a href="#" class="prestiva-icon-link" aria-label="Saved offers">
-                            <i class="bi bi-bookmark-heart prestiva-icon"></i>
+                        <a href="#"
+                               class="prestiva-action-btn prestiva-action-btn-badge"
+                               aria-label="Saved offers"
+                               title="Saved offers">
+                            <i class="bi bi-bookmark-heart"></i>
+                            <span class="prestiva-action-badge">0</span>
                         </a>
 
-                        <a href="#" class="prestiva-icon-link" aria-label="Profile">
-                            <i class="bi bi-person-circle prestiva-icon"></i>
+                        <a href="#"
+                               class="prestiva-action-btn"
+                               aria-label="Profile"
+                               title="Profile">
+                            <i class="bi bi-person-circle"></i>
                         </a>
+
                     </div>
                 </div>
                 </div>
         </nav>
+
+        <!-- The additional navbar used to jump between catwgories -->
+        <div class="prestiva-category-bar">
+            <div class="container">
+                <div class="prestiva-category-bar-inner">
+                    <span class="prestiva-category-label">
+                        Explore by type
+                    </span>
+
+                    <ul class="prestiva-category-menu">
+                        <li>
+                            <a asp-controller="Offers" asp-action="Index">
+                                All cars
+                            </a>
+                        </li>
+
+                        @await Component.InvokeAsync("VehicleCategoriesMenu")
+                    </ul>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- MAIN CONTENT -->
@@ -75,31 +102,35 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="prestiva-footer border-top text-muted">
+    <footer class="prestiva-footer">
         <div class="container">
-            <div class="row g-4">
-            <!-- LEFT -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="prestiva-footer-brand">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="d-inline-block mb-3 ">
-                            <img src="~/content/appLogo/LogoV1Smaller.jpg" alt="PrestivaCars logo" class="prestiva-footer-logo" />
-                        </a>
+            <div class="prestiva-footer-main">
+                <!-- LEFT -->
+                <div class="prestiva-footer-column prestiva-footer-about">
+                    <a asp-area=""
+                           asp-controller="Home"
+                           asp-action="Index"
+                           class="d-inline-block mb-3">
+                        <img src="~/content/appLogo/LogoV1Smaller.jpg"
+                             alt="PrestivaCars logo"
+                             class="prestiva-footer-logo" />
+                    </a>
 
-                        <p class="prestiva-footer-text">
-                            PrestivaCars is a modern car sales platform designed to provide 
-                            a seamless and reliable experience for buying and selling vehicles.
-                        </p>
+                    <p class="prestiva-footer-text">
+                        PrestivaCars is a modern car sales platform designed to provide
+                        a seamless and reliable experience for buying and selling vehicles.
+                    </p>
 
-                        <div class="prestiva-footer-links-inline">
-                            <a asp-area="" asp-controller="Home" asp-action="">FAQ</a>
-                            <a asp-area="" asp-controller="Home" asp-action="">Contact</a>
-                        </div>
+                    <div class="prestiva-footer-links-inline">
+                        <a asp-area="" asp-controller="Pages" asp-action="Details" asp-route-slug="faq">FAQ</a>
+                        <a href="mailto:contact@prestivacars.com">Contact</a>
                     </div>
                 </div>
 
                 <!-- CENTER -->
-                <div class="col-lg-4 col-md-6">
+                <div class="prestiva-footer-column prestiva-footer-navigation">
                     <h5 class="prestiva-footer-title">Quick Links</h5>
+
                     <ul class="prestiva-footer-list">
                         <li>
                             <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -108,17 +139,18 @@
                             <a asp-area="" asp-controller="Offers" asp-action="Index">Browse Cars</a>
                         </li>
                         <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy">About Us</a>
+                            <a asp-area="" asp-controller="Pages" asp-action="Details" asp-route-slug="about-us">About Us</a>
                         </li>
                         <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy">Help & FAQs</a>
+                            <a asp-area="" asp-controller="Pages" asp-action="Details" asp-route-slug="faq">Help & FAQs</a>
                         </li>
                     </ul>
                 </div>
 
                 <!-- RIGHT -->
-                <div class="col-lg-4 col-md-12">
+                <div class="prestiva-footer-column prestiva-footer-support">
                     <h5 class="prestiva-footer-title">Legal & Support</h5>
+
                     <ul class="prestiva-footer-list">
                         <li>
                             <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
@@ -136,11 +168,11 @@
                 </div>
             </div>
 
-            <hr/>
+            <hr class="prestiva-footer-divider" />
 
             <!-- Bottom -->
-            <div class="prestiva-footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
-                <p class="mb-2 mb-md-0">
+            <div class="prestiva-footer-bottom">
+                <p class="mb-0">
                     &copy; 2026 PrestivaCars. All rights reserved.
                 </p>
 
@@ -150,7 +182,6 @@
                     <a asp-area="" asp-controller="Home" asp-action="Privacy">Cookies</a>
                 </div>
             </div>
-
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

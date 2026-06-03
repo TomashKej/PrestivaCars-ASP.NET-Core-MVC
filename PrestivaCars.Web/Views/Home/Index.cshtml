@@ -1,24 +1,193 @@
-﻿@model PrestivaCars.Data.Data.CMS.Page
+﻿@using PrestivaCars.Data.Data.Vehicles
+
 @{
-    ViewData["Title"] = Model?.Title ?? "Home";
+    ViewData["Title"] = "Home";
+
+    var featuredOffers = ViewBag.FeaturedOffers as IEnumerable<VehicleOffer> ?? Enumerable.Empty<VehicleOffer>();
+    var categories = ViewBag.VehicleCategories as IEnumerable<VehicleCategory> ?? Enumerable.Empty<VehicleCategory>();
 }
 
-<div class="container py-5">
-    @if (Model != null)
-    {
-        <div class="mb-4">
-            <h1>@Model.Title</h1>
+<section class="prestiva-home-hero">
+    <div class="container">
+        <div class="prestiva-home-hero-grid">
+            <div class="prestiva-home-hero-content">
+                <span class="prestiva-hero-label">PrestivaCars</span>
+
+                <h1>Find the right car for your next journey</h1>
+
+                <p>
+                    Search trusted vehicle offers, compare key specifications and browse cars by category, fuel type, transmission and more.
+                </p>
+
+                <form asp-controller="Offers"
+                      asp-action="Index"
+                      method="get"
+                      class="prestiva-home-search">
+
+                    <div class="prestiva-home-search-input">
+                        <i class="bi bi-search"></i>
+
+                        <input type="text"
+                               name="searchTerm"
+                               class="form-control"
+                               placeholder="Search by brand, model, fuel, colour or location..." />
+                    </div>
+
+                    <button type="submit" class="btn prestiva-home-search-btn">
+                        Search cars
+                    </button>
+                </form>
+
+                <div class="prestiva-home-hero-links">
+                    <a asp-controller="Offers" asp-action="Index">
+                        Browse all cars
+                    </a>
+
+                    <span>or</span>
+
+                    <a href="#browse-by-type">
+                        browse by type
+                    </a>
+                </div>
+            </div>
+
+            <div class="prestiva-home-hero-card">
+                <div class="prestiva-home-stat">
+                    <strong>@featuredOffers.Count()</strong>
+                    <span>featured offers</span>
+                </div>
+
+                <div class="prestiva-home-stat">
+                    <strong>@categories.Count()</strong>
+                    <span>vehicle categories</span>
+                </div>
+
+                <div class="prestiva-home-card-divider"></div>
+
+                <p>
+                    Public portal powered by MVC, Entity Framework and dynamic vehicle data from PrestivaCars.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="prestiva-home-section">
+    <div class="container">
+        <div class="prestiva-home-section-header">
+            <div>
+                <span class="prestiva-section-kicker">Featured cars</span>
+                <h2>Selected offers</h2>
+                <p>Start with highlighted vehicles currently available in our stock.</p>
+            </div>
+
+            <a asp-controller="Offers" asp-action="Index" class="btn btn-outline-primary">
+                View all cars
+            </a>
         </div>
 
-        <div>
-            <p>@Model.Content</p>
-            @* @Html.Raw(Model.Content) *@
+        @if (!featuredOffers.Any())
+        {
+            <div class="alert alert-info">
+                There are no featured offers available yet.
+            </div>
+        }
+        else
+        {
+            <div class="prestiva-home-featured-list">
+                @foreach (var offer in featuredOffers)
+                {
+                    @await Html.PartialAsync("~/Views/Offers/_OfferCard.cshtml", offer)
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<section id="browse-by-type" class="prestiva-home-section prestiva-home-categories-section">
+    <div class="container">
+        <div class="prestiva-home-section-header">
+            <div>
+                <span class="prestiva-section-kicker">Browse by type</span>
+                <h2>Explore vehicle categories</h2>
+                <p>Choose the type of vehicle that best matches your needs.</p>
+            </div>
         </div>
-    }
-    else
-    {
-        <div class="alert alert-warning">
-            Page not found.
+
+        @if (!categories.Any())
+        {
+            <div class="alert alert-info">
+                There are no active vehicle categories available yet.
+            </div>
+        }
+        else
+        {
+            <div class="prestiva-home-category-grid">
+                @foreach (var category in categories)
+                {
+                    <a asp-controller="Offers"
+                           asp-action="Category"
+                           asp-route-id="@category.VehicleCategoryId"
+                           class="prestiva-home-category-card">
+
+                        <div class="prestiva-home-category-icon">
+                            <i class="bi bi-car-front"></i>
+                        </div>
+
+                        <div>
+                            <h3>@category.Name</h3>
+
+                            @if (!string.IsNullOrWhiteSpace(category.Description))
+                            {
+                                <p>@category.Description</p>
+                            }
+                            else
+                            {
+                                <p>Browse active offers in this vehicle category.</p>
+                            }
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<section class="prestiva-home-section">
+    <div class="container">
+        <div class="prestiva-home-benefits">
+            <div class="prestiva-home-benefit">
+                <i class="bi bi-search"></i>
+                <h3>Search clearly</h3>
+                <p>Find cars by brand, model, fuel type, transmission, colour and location.</p>
+            </div>
+
+            <div class="prestiva-home-benefit">
+                <i class="bi bi-card-checklist"></i>
+                <h3>Compare details</h3>
+                <p>Every offer presents technical information in a clear and structured way.</p>
+            </div>
+
+            <div class="prestiva-home-benefit">
+                <i class="bi bi-shield-check"></i>
+                <h3>Browse confidently</h3>
+                <p>Offers are managed through the Intranet and displayed dynamically on the Web portal.</p>
+            </div>
         </div>
-    }
-</div>
+    </div>
+</section>
+
+<section class="prestiva-home-cta">
+    <div class="container">
+        <div class="prestiva-home-cta-card">
+            <div>
+                <h2>Ready to find your next car?</h2>
+                <p>Browse active vehicle offers and discover detailed specifications.</p>
+            </div>
+
+            <a asp-controller="Offers" asp-action="Index" class="btn btn-primary">
+                Browse cars
+            </a>
+        </div>
+    </div>
+</section>

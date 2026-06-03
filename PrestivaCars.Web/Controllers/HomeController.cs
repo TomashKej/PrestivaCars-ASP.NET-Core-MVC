@@ -1,49 +1,57 @@
 using Microsoft.AspNetCore.Mvc;
-using PrestivaCars.Data.Data;
+using PrestivaCars.Interfaces.Vehicles;
 using PrestivaCars.Web.Models;
 using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
 
 namespace PrestivaCars.Web.Controllers
 {
     /// <summary>
-    /// The following code defines a HomeController class that inherits from the Controller base class. 
-    /// It uses dependency injection to receive an instance of the PrestivaCarsContext, 
-    /// which is the Entity Framework Core database context for the application. 
-    /// The controller has three action methods: Index, Privacy, and Error. The Index method retrieves a list of pages from the database and returns a view with the 
-    /// selected page based on the provided id parameter. 
-    /// The Privacy method simply returns a view, while the Error method returns a view with an error model containing the request ID.
+    /// Represents the controller responsible for handling requests to the application's home pages, including the main
+    /// landing page, privacy policy, and error display.
     /// </summary>
+    /// <remarks>This controller provides actions for rendering the application's home-related views. It
+    /// retrieves featured vehicle offers and active vehicle categories for the main page and displays privacy and error
+    /// information as needed. The controller is intended to be used as the entry point for users visiting the root or
+    /// informational pages of the application.</remarks>
     public class HomeController : Controller
     {
-        private readonly PrestivaCarsContext _context;
-        public HomeController(PrestivaCarsContext context)
+        private readonly ILogger<HomeController> _logger;
+        private readonly IVehicleOfferService _vehicleOfferService;
+        private readonly IVehicleCategoryService _vehicleCategoryService;
+
+        public HomeController(
+            ILogger<HomeController> logger,
+            IVehicleOfferService vehicleOfferService,
+            IVehicleCategoryService vehicleCategoryService)
         {
-            _context = context;
+            _logger = logger;
+            _vehicleOfferService = vehicleOfferService;
+            _vehicleCategoryService = vehicleCategoryService;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        // GET: Home/Index
+        public async Task<IActionResult> Index()
         {
-            ViewBag.PageModel = await _context.Pages
-                .OrderBy(p => p.Position)
-                .ToListAsync();
+            ViewBag.FeaturedOffers = await _vehicleOfferService.GetFeaturedOffersAsync(3);
+            ViewBag.VehicleCategories = await _vehicleCategoryService.GetActiveCategoriesAsync();
 
-            var page = id.HasValue
-                ? await _context.Pages.FirstOrDefaultAsync(p => p.PageId == id.Value)
-                : await _context.Pages.FirstOrDefaultAsync();
-
-            return View(page);
+            return View();
         }
 
+        // GET: Home/Privacy
         public IActionResult Privacy()
         {
             return View();
         }
 
+        // GET: Home/Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            });
         }
     }
 }

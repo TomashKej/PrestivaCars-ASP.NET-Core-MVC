@@ -1,0 +1,26 @@
+﻿@model PrestivaCars.Data.Data.CMS.Page
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="prestiva-page-hero">
+    <div class="container">
+        <span class="prestiva-hero-label">PrestivaCars</span>
+
+        <h1>@Model.Title</h1>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+        {
+            <p>@Model.ShortDescription</p>
+        }
+    </div>
+</section>
+
+<section class="prestiva-page-section">
+    <div class="container">
+        <article class="prestiva-page-card">
+            @Html.Raw(Model.Content)
+        </article>
+    </div>
+</section>

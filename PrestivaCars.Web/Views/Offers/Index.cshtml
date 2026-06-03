@@ -14,6 +14,19 @@
             <p>
                 Browse selected vehicle offers with clear details, verified specifications and professional presentation.
             </p>
+            <form asp-controller="Offers" asp-action="Index" method="get" class="prestiva-search-form">
+                <div class="prestiva-search-input-wrapper">
+                    <i class="bi bi-search"></i>
+
+                    <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Search by brand, model, fuel, colour or location..." />
+                </div>
+
+                <button type="submit" class="btn prestiva-search-btn">Search</button>
+
+                <a asp-controller="Offers" asp-action="Index" class="btn prestiva-clear-btn">
+                    Clear
+                </a>
+            </form>
         </div>
     </div>
 </section>
@@ -23,7 +36,18 @@
         <div class="prestiva-results-header">
             <div>
                 <h2>Cars for sale</h2>
-                <p>@Model.Count() active offers found</p>
+                @if (!string.IsNullOrWhiteSpace(ViewBag.SearchTerm as string))
+                {
+                    <p>
+                        @Model.Count() results found for "@ViewBag.SearchTerm.ToLower().Trim()"
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @Model.Count() active offers found
+                    </p>    
+                }
             </div>
 
             <div class="prestiva-sort-box">

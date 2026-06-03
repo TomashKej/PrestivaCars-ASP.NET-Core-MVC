@@ -1,4 +1,5 @@
-﻿html, body {
+﻿html,
+body {
     height: 100%;
 }
 
@@ -8,7 +9,43 @@ body {
     flex-direction: column;
 }
 
-/* ------ THE FOLLOWING CSS RULES DEFINES THE NAVIGATION BAR STYLES ------ */
+/* ================================
+   Shared values
+================================ */
+
+:root {
+    --prestiva-primary: #2563eb;
+    --prestiva-primary-dark: #1d4ed8;
+    --prestiva-dark: #111827;
+    --prestiva-text: #374151;
+    --prestiva-muted: #6b7280;
+    --prestiva-border: #e5e7eb;
+    --prestiva-soft-bg: #f8fafc;
+    --prestiva-soft-blue: #eff6ff;
+    --prestiva-soft-blue-border: #bfdbfe;
+    --prestiva-white: #ffffff;
+}
+
+/* ================================
+   PrestivaCars Web - Navbar
+================================ */
+
+.navbar {
+    background-color: var(--prestiva-white);
+    border-bottom: 1px solid var(--prestiva-border);
+}
+
+    .navbar .nav-link {
+        color: var(--prestiva-text);
+        font-weight: 600;
+        transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+        .navbar .nav-link:hover {
+            color: var(--prestiva-primary);
+            transform: scale(1.07);
+        }
+
 .prestiva-brand {
     display: flex;
     align-items: center;
@@ -20,58 +57,268 @@ body {
     width: auto;
 }
 
-.prestiva-icon-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #1f2937;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
+/* ================================
+   PrestivaCars Web - Navbar Actions
+================================ */
 
-.prestiva-icon-link:hover {
-    background-color: #f3f4f6;
-    color: #2563eb;
-}
-
-.prestiva-icon {
-    font-size: 1.2rem;
-    line-height: 1;
-}
-
-.navbar {
-    border-bottom: 1px solid #e5e7eb;
-    background-color: #ffffff;
-}
-
-.navbar .nav-link {
-    color: #374151;
-    font-weight: 600;
-    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
-}
-
-.navbar .nav-link:hover {
-    color: #920101;
-    transform: scale(1.07);
+.prestiva-main-nav {
+    gap: 6px;
 }
 
 .prestiva-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-left: auto;
+    gap: 10px;
+    margin-left: 18px;
+    flex-shrink: 0;
 }
 
-/* --- HAMBURGER MENU --- */
-@media (max-width: 991px) {
+.prestiva-action-btn {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    border: 1px solid var(--prestiva-border);
+    background: var(--prestiva-white);
+    color: var(--prestiva-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.25rem;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+    .prestiva-action-btn:hover {
+        transform: translateY(-2px);
+        color: var(--prestiva-primary);
+        border-color: var(--prestiva-soft-blue-border);
+        background: var(--prestiva-soft-blue);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+    }
+
+    .prestiva-action-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+    }
+
+    .prestiva-action-btn i {
+        line-height: 1;
+    }
+
+.prestiva-action-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--prestiva-primary);
+    color: var(--prestiva-white);
+    font-size: 0.68rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--prestiva-white);
+}
+
+/* ================================
+   PrestivaCars Web - Category Bar
+================================ */
+
+.prestiva-category-bar {
+    background: var(--prestiva-white);
+    border-bottom: 1px solid var(--prestiva-border);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+}
+
+.prestiva-category-bar-inner {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.prestiva-category-label {
+    flex: 0 0 auto;
+    color: var(--prestiva-muted);
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.prestiva-category-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+    .prestiva-category-menu li {
+        flex: 0 0 auto;
+    }
+
+    .prestiva-category-menu a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 7px 15px;
+        border-radius: 999px;
+        background: var(--prestiva-soft-bg);
+        border: 1px solid var(--prestiva-border);
+        color: var(--prestiva-text);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 700;
+        white-space: nowrap;
+        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    }
+
+        .prestiva-category-menu a:hover {
+            background: var(--prestiva-soft-blue);
+            border-color: var(--prestiva-soft-blue-border);
+            color: var(--prestiva-primary-dark);
+            transform: translateY(-1px);
+        }
+
+/* ================================
+   PrestivaCars Web - Footer
+================================ */
+
+.prestiva-footer {
+    background: var(--prestiva-white);
+    border-top: 1px solid var(--prestiva-border);
+    color: #4b5563;
+    padding: 54px 0 24px;
+    margin-top: 56px;
+}
+
+.prestiva-footer-main {
+    display: grid;
+    grid-template-columns: minmax(280px, 1.3fr) minmax(180px, 0.8fr) minmax(220px, 0.9fr);
+    gap: 56px;
+    align-items: start;
+}
+
+.prestiva-footer-column {
+    min-width: 0;
+}
+
+.prestiva-footer-about {
+    max-width: 420px;
+}
+
+.prestiva-footer-navigation {
+    justify-self: center;
+}
+
+.prestiva-footer-support {
+    justify-self: end;
+    min-width: 240px;
+}
+
+.prestiva-footer-logo {
+    max-width: 190px;
+    height: auto;
+    display: block;
+}
+
+.prestiva-footer-text {
+    color: var(--prestiva-muted);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    max-width: 390px;
+}
+
+.prestiva-footer-title {
+    color: var(--prestiva-dark);
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+}
+
+.prestiva-footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .prestiva-footer-list li {
+        margin-bottom: 11px;
+    }
+
+    .prestiva-footer-list a,
+    .prestiva-footer-links-inline a,
+    .prestiva-footer-bottom-links a {
+        color: var(--prestiva-muted);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.15s ease, transform 0.15s ease;
+    }
+
+    .prestiva-footer-list a {
+        display: inline-block;
+    }
+
+        .prestiva-footer-list a:hover {
+            color: var(--prestiva-primary);
+            transform: translateX(6px);
+        }
+
+.prestiva-footer-links-inline a:hover,
+.prestiva-footer-bottom-links a:hover {
+    color: var(--prestiva-primary);
+}
+
+.prestiva-footer-links-inline {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.prestiva-footer-divider {
+    margin: 38px 0 22px;
+    border-color: var(--prestiva-border);
+    opacity: 1;
+}
+
+.prestiva-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    color: var(--prestiva-muted);
+    font-size: 0.92rem;
+}
+
+.prestiva-footer-bottom-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width: 991.98px) {
     .navbar-collapse {
         margin-top: 0.8rem;
         padding: 1rem;
-        background-color: #fff;
-        border: 1px solid #e5e7eb;
+        background-color: var(--prestiva-white);
+        border: 1px solid var(--prestiva-border);
         border-radius: 14px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
@@ -87,110 +334,78 @@ body {
         transform: none !important;
     }
 
-    .navbar .nav-link:hover {
-        background-color: #EBEBEB;
-        color: #920101;
-    }
+        .navbar .nav-link:hover {
+            background-color: #ebebeb;
+            color: var(--prestiva-primary);
+        }
 
     .prestiva-actions {
         margin-left: 0;
-        margin-top: 0.8rem;
-        padding-top: 0.7rem;
-        border-top: 1px solid #e5e7eb;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--prestiva-border);
         justify-content: flex-start;
     }
+
+    .prestiva-footer-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 38px;
+    }
+
+    .prestiva-footer-about {
+        grid-column: 1 / -1;
+        max-width: 620px;
+    }
+
+    .prestiva-footer-navigation,
+    .prestiva-footer-support {
+        justify-self: start;
+    }
 }
 
-/* ------ THE FOLLOWING STYLES DEFINE THE APP FOOTER ------ */
-.prestiva-footer {
-    background: #ffffff;
-    color: #4b5563;
-    padding: 55px 0 20px;
-    margin-top: 60px;
-    border-top: 1px solid #e5e7eb;
+@media (max-width: 767.98px) {
+    .prestiva-category-bar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 0;
+    }
+
+    .prestiva-category-menu {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+    }
+
+    .prestiva-category-label {
+        font-size: 0.78rem;
+    }
 }
 
-.prestiva-footer-logo {
-    height: 55px;
-    width: auto;
-    display: block;
-    margin: auto;
-}
-
-.prestiva-footer-text {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    max-width: 320px;
-    margin-bottom: 18px;
-    color: #4b5563;
-}
-
-.prestiva-footer-links-inline {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.prestiva-footer-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 18px;
-    color: #111827;
-}
-
-.prestiva-footer-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.prestiva-footer-list li {
-    margin-bottom: 10px;
-}
-
-.prestiva-footer a {
-    color: #6b7280;
-    text-decoration: none;
-    display: inline-block;
-    transition: color 0.25s ease, transform 0.25s ease;
-}
-
-.prestiva-footer a:hover {
-    color: #d00000;
-    transform: translateX(4px);
-}
-
-.prestiva-footer-bottom {
-    font-size: 0.9rem;
-}
-
-.prestiva-footer-bottom-links {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.prestiva-footer-bottom-links a {
-    color: #b6b6b6;
-}
-
-.prestiva-footer-bottom-links a:hover {
-    color: #d00000;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 575.98px) {
     .prestiva-footer {
-        text-align: center;
+        padding: 40px 0 22px;
+        margin-top: 42px;
     }
 
-    .prestiva-footer-text {
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
+    .prestiva-footer-main {
+        grid-template-columns: 1fr;
+        gap: 32px;
     }
 
-    .prestiva-footer-links-inline,
+    .prestiva-footer-about,
+    .prestiva-footer-navigation,
+    .prestiva-footer-support {
+        max-width: none;
+        justify-self: start;
+    }
+
+    .prestiva-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .prestiva-footer-bottom-links {
-        justify-content: center;
+        gap: 14px;
     }
 }

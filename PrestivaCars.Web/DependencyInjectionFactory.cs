@@ -1,4 +1,6 @@
-﻿using PrestivaCars.Interfaces.Vehicles;
+﻿using PrestivaCars.Interfaces.CMS;
+using PrestivaCars.Interfaces.Vehicles;
+using PrestivaCars.Services.CMS;
 using PrestivaCars.Services.Vehicles;
 
 namespace PrestivaCars.Web
@@ -9,6 +11,7 @@ namespace PrestivaCars.Web
         {
             services.AddScoped<IVehicleOfferService, VehicleOfferService>();
             services.AddScoped<IVehicleCategoryService, VehicleCategoryService>();
+            services.AddScoped<IPageService, PageService>();
         }
     }
 }

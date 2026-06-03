@@ -12,9 +12,9 @@ namespace PrestivaCars.Interfaces.Vehicles
     /// offers are found.</remarks>
     public interface IVehicleOfferService
     {
-        Task<IList<VehicleOffer>> GetActiveOffersAsync();                                  
+        Task<IList<VehicleOffer>> GetActiveOffersAsync(string? searchTerm = null);                                  
         Task<IList<VehicleOffer>> GetFeaturedOffersAsync(int count);
-        Task<IList<VehicleOffer>> GetOffersByCategoryAsync(int vehicleCategoryId);
+        Task<IList<VehicleOffer>> GetOffersByCategoryAsync(int vehicleCategoryId, string? searchTerm = null);
         Task<VehicleOffer?> GetOfferDetailsAsync(int id);
     }
 }

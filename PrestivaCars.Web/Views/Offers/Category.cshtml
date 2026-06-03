@@ -14,6 +14,34 @@
         {
             <p>@ViewBag.CategoryDescription</p>
         }
+        <!-- Search form for filtering offers within the category -->
+        <form asp-controller="Offers"
+              asp-action="Category"
+              asp-route-id="@ViewBag.CategoryId"
+              method="get"
+              class="prestiva-search-form">
+
+            <div class="prestiva-search-input-wrapper">
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       name="searchTerm"
+                       value="@ViewBag.SearchTerm"
+                       class="form-control"
+                       placeholder="Search in this category by brand, model, fuel, colour or location..." />
+            </div>
+
+            <button type="submit" class="btn prestiva-search-btn mt-1">
+                Search
+            </button>
+
+            <a asp-controller="Offers"
+                   asp-action="Category"
+                   asp-route-id="@ViewBag.CategoryId"
+                   class="btn prestiva-clear-btn mt-1">
+                Clear
+            </a>
+        </form>
     </div>
 </section>
 
@@ -22,7 +50,18 @@
         <div class="prestiva-results-header">
             <div>
                 <h2>Available offers</h2>
-                <p>@Model.Count() offers in this category</p>
+                @if (!string.IsNullOrWhiteSpace(ViewBag.SearchTerm as string))
+                {
+                    <p>
+                        @Model.Count() results found for "@ViewBag.SearchTerm.ToLower().Trim()" in @ViewBag.CategoryName
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @Model.Count() offers in this category
+                    </p>
+                }
             </div>
 
             <a asp-controller="Offers" asp-action="Index" class="btn btn-outline-secondary">

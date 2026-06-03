@@ -22,14 +22,16 @@ namespace PrestivaCars.Web.Controllers
             _vehicleCategoryService = vehicleCategoryService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchTerm)
         {
-            var offers = await _vehicleOfferService.GetActiveOffersAsync();
+            var offers = await _vehicleOfferService.GetActiveOffersAsync(searchTerm);
+
+            ViewBag.SearchTerm = searchTerm;
 
             return View(offers);
         }
 
-        public async Task<IActionResult> Category(int id)
+        public async Task<IActionResult> Category(int id, string? searchTerm)
         {
             var category = await _vehicleCategoryService.GetCategoryByIdAsync(id);
 
@@ -38,10 +40,12 @@ namespace PrestivaCars.Web.Controllers
                 return NotFound();
             }
 
+            ViewBag.CategoryId = id;
             ViewBag.CategoryName = category.Name;
             ViewBag.CategoryDescription = category.Description;
+            ViewBag.SearchTerm = searchTerm;
 
-            var offers = await _vehicleOfferService.GetOffersByCategoryAsync(id);
+            var offers = await _vehicleOfferService.GetOffersByCategoryAsync(id, searchTerm);
 
             return View(offers);
         }
