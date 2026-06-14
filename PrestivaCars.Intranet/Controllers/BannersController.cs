@@ -49,7 +49,7 @@ namespace PrestivaCars.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BannerId,Title,Subtitle,ButtonText,ButtonUrl,ImagePath,Position,IsActive")] Banner banner)
+        public async Task<IActionResult> Create([Bind("BannerId,PlacementKey,CompanyNameLabel,Title,Subtitle,ButtonText,ButtonUrl,ImagePath,Position,IsActive")] Banner banner)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace PrestivaCars.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BannerId,Title,Subtitle,ButtonText,ButtonUrl,ImagePath,Position,IsActive")] Banner banner)
+        public async Task<IActionResult> Edit(int id, [Bind("BannerId,PlacementKey,CompanyNameLabel,Title,Subtitle,ButtonText,ButtonUrl,ImagePath,Position,IsActive")] Banner banner)
         {
             if (id != banner.BannerId)
             {
@@ -120,13 +120,14 @@ namespace PrestivaCars.Intranet.Controllers
             }
 
             var banner = await _context.Banners
-                .FirstOrDefaultAsync(m => m.BannerId == id);
+                .FirstOrDefaultAsync(m => m.BannerId == id && m.IsActive);
+
             if (banner == null)
             {
                 return NotFound();
             }
 
-            return View(banner);
+            return PartialView("_DeleteModal", banner);
         }
 
         // POST: Banners/Delete/5
@@ -135,12 +136,109 @@ namespace PrestivaCars.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var banner = await _context.Banners.FindAsync(id);
+
             if (banner != null)
             {
                 _context.Banners.Remove(banner);
             }
 
             await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Banners/BulkRestore
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var banners = await _context.Banners
+                .Where(b => selectedIds.Contains(b.BannerId) && b.IsActive)
+                .ToListAsync();
+
+            if (banners.Any())
+            {
+                _context.Banners.RemoveRange(banners);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Banners/Restore/5
+        [HttpGet]
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var banner = await _context.Banners
+                .FirstOrDefaultAsync(b => b.BannerId == id && !b.IsActive);
+
+            if (banner == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_RestoreModal", banner);
+        }
+
+        // POST: Banners/Restore/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var banner = await _context.Banners.FindAsync(id);
+
+            if (banner != null && !banner.IsActive)
+            {
+                banner.IsActive = true;
+                banner.DeletedAt = null;
+                banner.DeletedBy = string.Empty;
+                banner.UpdatedAt = DateTime.Now;
+                banner.UpdatedBy = "System";
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Banners/BulkRestore
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkRestore(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var banners = await _context.Banners
+                .Where(b => selectedIds.Contains(b.BannerId) && !b.IsActive)
+                .ToListAsync();
+
+            foreach (var banner in banners)
+            {
+                banner.IsActive = true;
+                banner.DeletedAt = null;
+                banner.DeletedBy = string.Empty;
+                banner.UpdatedAt = DateTime.Now;
+                banner.UpdatedBy = "System";
+            }
+
+            if (banners.Any())
+            {
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

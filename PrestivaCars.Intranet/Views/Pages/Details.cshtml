@@ -1,102 +1,206 @@
 ﻿@model PrestivaCars.Data.Data.CMS.Page
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Page Details";
 }
 
-<h1>Details</h1>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h3 class="mb-1">Page Details</h3>
+        <p class="text-muted mb-0">
+            Complete CMS page information used by the public portal.
+        </p>
+    </div>
 
-<div>
-    <h4>Page</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LinkTitle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LinkTitle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShowInNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShowInNavigation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedBy)
-        </dd>
-    </dl>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.PageId" class="btn btn-primary">
+            Edit Page
+        </a>
+
+        @if (Model.IsActive)
+        {
+            <button type="button"
+                    class="btn btn-danger js-delete-btn"
+                    data-id="@Model.PageId">
+                Delete
+            </button>
+        }
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.PageId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+            <div>
+                <h4 class="mb-1">@Model.Title</h4>
+                <p class="text-muted mb-0">
+                    Menu title: <strong>@Model.LinkTitle</strong>
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success px-3 py-2">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger px-3 py-2">Inactive</span>
+                }
+
+                @if (Model.ShowInNavigation)
+                {
+                    <span class="badge bg-primary px-3 py-2">Visible in Navigation</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary px-3 py-2">Hidden from Navigation</span>
+                }
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Slug</div>
+                    <code>@Model.Slug</code>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Position</div>
+                    <strong>@Model.Position</strong>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Page ID</div>
+                    <strong>@Model.PageId</strong>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Short Description</div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+                    {
+                        <p class="mb-0">@Model.ShortDescription</p>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No short description provided.</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-header bg-white border-0 pt-4 px-4">
+        <h5 class="mb-1">Page Content Preview</h5>
+        <p class="text-muted mb-0">
+            This is the HTML content displayed on the public portal.
+        </p>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="border rounded-3 p-4 bg-light">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-lg border-0">
+    <div class="card-header bg-white border-0 pt-4 px-4">
+        <h5 class="mb-1">Audit Information</h5>
+        <p class="text-muted mb-0">
+            System information about creation, modification and soft delete status.
+        </p>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 bg-light h-100">
+                    <div class="text-muted small mb-1">Created At</div>
+                    <strong>@Model.CreatedAt.ToString("dd MMM yyyy HH:mm")</strong>
+                    <div class="text-muted small mt-2">Created By</div>
+                    <span>@Model.CreatedBy</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 bg-light h-100">
+                    <div class="text-muted small mb-1">Updated At</div>
+
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        <strong>@Model.UpdatedAt.Value.ToString("dd MMM yyyy HH:mm")</strong>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Not updated</span>
+                    }
+
+                    <div class="text-muted small mt-2">Updated By</div>
+                    <span>@Model.UpdatedBy</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 bg-light h-100">
+                    <div class="text-muted small mb-1">Deleted At</div>
+
+                    @if (Model.DeletedAt.HasValue)
+                    {
+                        <strong>@Model.DeletedAt.Value.ToString("dd MMM yyyy HH:mm")</strong>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Not deleted</span>
+                    }
+
+                    <div class="text-muted small mt-2">Deleted By</div>
+                    <span>@Model.DeletedBy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const deleteButton = document.querySelector('.js-delete-btn');
+
+        if (deleteButton) {
+            deleteButton.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const modalElement = document.getElementById('deleteModal');
+                const modalContent = modalElement.querySelector('.modal-content');
+                const modal = new bootstrap.Modal(modalElement);
+
+                fetch('@Url.Action("Delete", "Pages")?id=' + id)
+                    .then(response => response.text())
+                    .then(html => {
+                        modalContent.innerHTML = html;
+                        modal.show();
+                    });
+            });
+        }
+    </script>
+}

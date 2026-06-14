@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PrestivaCars.Data.Data;
 using PrestivaCars.Data.Data.Vehicles;
 using PrestivaCars.Intranet.Services;
+using PrestivaCars.Interfaces.Export;
 
 namespace PrestivaCars.Intranet.Controllers
 {
@@ -11,11 +12,13 @@ namespace PrestivaCars.Intranet.Controllers
     {
         private readonly PrestivaCarsContext _context;
         private readonly VehicleFormService _vehicleFormService;
+        private readonly IVehicleExcelExportService _vehicleExcelExportService;
 
-        public VehiclesController(PrestivaCarsContext context, VehicleFormService vehicleFormService)
+        public VehiclesController(PrestivaCarsContext context, VehicleFormService vehicleFormService, IVehicleExcelExportService vehicleExcelExportService)
         {
             _context = context;
             _vehicleFormService = vehicleFormService;
+            _vehicleExcelExportService = vehicleExcelExportService;
         }
 
         // GET: Vehicles
@@ -180,6 +183,21 @@ namespace PrestivaCars.Intranet.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Vehicles/ExportToExcel
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var fileContent = await _vehicleExcelExportService.GenerateVehiclesExcelFileAsync();
+
+            var fileName = $"prestiva-vehicles-export-{DateTime.Now:yyyyMMdd-HHmm}.xlsx";
+
+            return File(
+                fileContent,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileName
+            );
+        }
+
+        // This method checks if a vehicle with the given ID exists in the database.
         private bool VehicleExists(int id)
         {
             return _context.Vehicles.Any(e => e.VehicleId == id);

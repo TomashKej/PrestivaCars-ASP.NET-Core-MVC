@@ -1,131 +1,6 @@
 ﻿/* ================================
    PrestivaCars Web - Offers
-   AutoTrader inspired layout
 ================================ */
-
-.prestiva-search-hero,
-.prestiva-category-hero {
-    background: linear-gradient(135deg, #07111f 0%, #10233f 55%, #164a8b 100%);
-    color: #ffffff;
-    border-radius: 0 0 34px 34px;
-    margin-bottom: 34px;
-}
-
-.prestiva-search-hero {
-    padding: 58px 0;
-}
-
-.prestiva-category-hero {
-    padding: 46px 0;
-}
-
-.prestiva-search-form {
-    margin-top: 20px;
-    max-width: 860px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.prestiva-search-input-wrapper {
-    flex: 1 1 420px;
-    position: relative;
-}
-
-    .prestiva-search-input-wrapper i {
-        position: absolute;
-        left: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #64748b;
-        font-size: 1.1rem;
-        z-index: 2;
-    }
-
-    .prestiva-search-input-wrapper .form-control {
-        height: 54px;
-        border-radius: 100px;
-        border: 0;
-        padding-left: 48px;
-        padding-right: 20px;
-        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.20);
-        font-weight: 600;
-    }
-
-        .prestiva-search-input-wrapper .form-control:focus {
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.28), 0 18px 44px rgba(0, 0, 0, 0.20);
-        }
-
-.prestiva-search-btn,
-.prestiva-clear-btn {
-    height: 54px;
-    border-radius: 999px;
-    padding: 0 24px;
-    font-weight: 800;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 105px;
-}
-
-.prestiva-search-btn {
-    background: #10233f;
-    border: 1px solid #2563eb;
-    color: #ffffff;
-}
-
-    .prestiva-search-btn:hover {
-        background: #2563eb;
-        border-color: #1d4ed8;
-        color: #ffffff;
-    }
-
-.prestiva-clear-btn {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.42);
-    color: #ffffff;
-}
-
-    .prestiva-clear-btn:hover {
-        background: #ffffff;
-        border-color: #ffffff;
-        color: #111827;
-    }
-
-
-.prestiva-hero-content {
-    max-width: 760px;
-}
-
-.prestiva-hero-label {
-    display: inline-flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    color: #ffffff;
-    border-radius: 999px;
-    padding: 7px 14px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    margin-bottom: 18px;
-}
-
-.prestiva-search-hero h1,
-.prestiva-category-hero h1 {
-    font-size: clamp(2rem, 4vw, 3.6rem);
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    margin-bottom: 14px;
-}
-
-.prestiva-search-hero p,
-.prestiva-category-hero p {
-    max-width: 720px;
-    color: rgba(255, 255, 255, 0.78);
-    font-size: 1.08rem;
-    margin-bottom: 0;
-}
 
 .prestiva-offers-section {
     padding-bottom: 56px;
@@ -333,12 +208,6 @@
 }
 
 @media (max-width: 575.98px) {
-    .prestiva-search-hero,
-    .prestiva-category-hero {
-        padding: 38px 0;
-        border-radius: 0 0 24px 24px;
-    }
-
     .prestiva-offer-content {
         padding: 18px;
     }
@@ -562,16 +431,26 @@
 @media (max-width: 991.98px) {
     .prestiva-details-layout {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .prestiva-details-sidebar {
-        order: -1;
+        order: 0;
     }
 
     .prestiva-details-main-image,
     .details-placeholder {
         height: 390px;
         min-height: 390px;
+    }
+
+    .prestiva-details-heading {
+        align-items: flex-start;
+    }
+
+    .prestiva-details-price-box {
+        width: 100%;
+        min-width: 0;
     }
 }
 
@@ -604,13 +483,4 @@
         padding: 20px;
         border-radius: 22px;
     }
-    .prestiva-search-form {
-        align-items: stretch;
-    }
-
-        .prestiva-search-form .btn,
-        .prestiva-search-input-wrapper {
-            width: 100%;
-            flex-basis: 100%;
-        }
 }

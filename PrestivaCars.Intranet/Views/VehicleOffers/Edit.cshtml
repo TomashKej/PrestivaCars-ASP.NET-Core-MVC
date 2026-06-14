@@ -1,91 +1,135 @@
 ﻿@model PrestivaCars.Data.Data.Vehicles.VehicleOffer
 
 @{
-    ViewData["Title"] = "Edit vehicle offer";
+    ViewData["Title"] = "Edit Vehicle Offer";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
     <div>
         <h3 class="mb-1">Edit Vehicle Offer</h3>
-        <p class="text-muted mb-0">Update offer information displayed on the public website.</p>
+        <p class="text-muted mb-0">
+            Update offer content, linked vehicle, price and Portal visibility.
+        </p>
     </div>
 
-    <a asp-action="Index" class="btn btn-outline-secondary">
-        Back to List
-    </a>
+    <div class="d-flex gap-2 flex-wrap">
+        <a asp-action="Details" asp-route-id="@Model.VehicleOfferId" class="btn btn-outline-primary">
+            Details
+        </a>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
 </div>
 
 <div class="card shadow-lg border-0">
     <div class="card-body p-4">
         <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
             <input type="hidden" asp-for="VehicleOfferId" />
 
-            <div asp-validation-summary="All" class="text-danger mb-3"></div>
-
             <div class="row g-3">
+
                 <div class="col-md-8">
                     <label asp-for="Title" class="form-label"></label>
-                    <input asp-for="Title" class="form-control" />
+                    <input asp-for="Title"
+                           class="form-control"
+                           placeholder="E.g. 2020 BMW 3 Series M Sport" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-4">
                     <label asp-for="Price" class="form-label"></label>
-                    <input asp-for="Price" class="form-control" />
+                    <input asp-for="Price"
+                           class="form-control"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           placeholder="E.g. 15995.00" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-8">
                     <label asp-for="Slug" class="form-label"></label>
-                    <input asp-for="Slug" class="form-control" />
+                    <input asp-for="Slug"
+                           class="form-control"
+                           placeholder="E.g. bmw-3-series-m-sport" />
                     <span asp-validation-for="Slug" class="text-danger"></span>
+                    <div class="form-text">
+                        If left empty, the slug will be generated from the title.
+                    </div>
                 </div>
 
                 <div class="col-md-4">
                     <label asp-for="Location" class="form-label"></label>
-                    <input asp-for="Location" class="form-control" />
+                    <input asp-for="Location"
+                           class="form-control"
+                           placeholder="E.g. London" />
                     <span asp-validation-for="Location" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-12">
                     <label asp-for="VehicleId" class="form-label"></label>
-                    <select asp-for="VehicleId" class="form-select" asp-items="ViewBag.VehicleId">
+                    <select asp-for="VehicleId"
+                            class="form-select"
+                            asp-items="ViewBag.VehicleId">
                         <option value="">-- Select vehicle --</option>
                     </select>
                     <span asp-validation-for="VehicleId" class="text-danger"></span>
+                    <div class="form-text">
+                        Select the catalogue vehicle connected with this public offer.
+                    </div>
                 </div>
 
                 <div class="col-md-12">
                     <label asp-for="Description" class="form-label"></label>
                     <textarea asp-for="Description"
                               class="form-control"
-                              rows="5"></textarea>
+                              rows="7"
+                              placeholder="Write the public offer description..."></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="form-check form-switch mt-4">
+                <div class="col-md-6">
+                    <div class="form-check mt-2">
                         <input asp-for="IsFeatured" class="form-check-input" />
                         <label asp-for="IsFeatured" class="form-check-label"></label>
                     </div>
+
+                    <div class="form-text">
+                        Featured offers can be highlighted on the public Portal.
+                    </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="form-check form-switch mt-4">
+                <div class="col-md-6">
+                    <div class="form-check mt-2">
                         <input asp-for="IsActive" class="form-check-input" />
                         <label asp-for="IsActive" class="form-check-label"></label>
                     </div>
+
+                    <div class="form-text">
+                        Inactive offers are hidden from the public Portal.
+                    </div>
                 </div>
+
             </div>
 
-            <div class="mt-4 d-flex justify-content-end gap-2">
-                <a asp-action="Index" class="btn btn-outline-secondary">
-                    Cancel
-                </a>
-
+            <div class="mt-4 d-flex gap-2 flex-wrap">
                 <button type="submit" class="btn btn-primary">
                     Save Changes
                 </button>
+
+                <a asp-action="Details"
+                       asp-route-id="@Model.VehicleOfferId"
+                       class="btn btn-outline-primary">
+                    Details
+                </a>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
             </div>
         </form>
     </div>

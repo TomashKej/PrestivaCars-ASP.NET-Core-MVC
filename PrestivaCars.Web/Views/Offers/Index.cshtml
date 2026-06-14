@@ -1,35 +1,20 @@
-﻿@model IEnumerable<PrestivaCars.Data.Data.Vehicles.VehicleOffer>
+﻿@using PrestivaCars.Data.Data.CMS
+@using PrestivaCars.Data.Data.Vehicles
+
+@model IEnumerable<VehicleOffer>
 
 @{
-    ViewData["Title"] = "Browse cars";
+    ViewData["Title"] = "All Cars";
+
+    var heroBanner = ViewBag.HeroBanner as Banner;
+
+    ViewData["ShowHeroSearch"] = true;
+    ViewData["SearchAction"] = ViewBag.CategoryId != null ? "Category" : "Index";
+    ViewData["SearchTerm"] = ViewBag.SearchTerm as string;
+    ViewData["CategoryId"] = ViewBag.CategoryId;
 }
 
-<section class="prestiva-search-hero">
-    <div class="container">
-        <div class="prestiva-hero-content">
-            <span class="prestiva-hero-label">PrestivaCars</span>
-
-            <h1>Find your next car</h1>
-
-            <p>
-                Browse selected vehicle offers with clear details, verified specifications and professional presentation.
-            </p>
-            <form asp-controller="Offers" asp-action="Index" method="get" class="prestiva-search-form">
-                <div class="prestiva-search-input-wrapper">
-                    <i class="bi bi-search"></i>
-
-                    <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Search by brand, model, fuel, colour or location..." />
-                </div>
-
-                <button type="submit" class="btn prestiva-search-btn">Search</button>
-
-                <a asp-controller="Offers" asp-action="Index" class="btn prestiva-clear-btn">
-                    Clear
-                </a>
-            </form>
-        </div>
-    </div>
-</section>
+<partial name="_HeroBanner" model="heroBanner" />
 
 <section class="prestiva-offers-section">
     <div class="container">
@@ -58,9 +43,18 @@
 
         @if (!Model.Any())
         {
-            <div class="alert alert-info">
-                There are no active vehicle offers available at the moment.
-            </div>
+            if (!string.IsNullOrWhiteSpace(ViewBag.SearchTerm as string))
+            {
+                <div class="alert alert-info">
+                    No vehicle offers were found for "@ViewBag.SearchTerm".
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    There are no active vehicle offers available at the moment.
+                </div>
+            }
         }
         else
         {

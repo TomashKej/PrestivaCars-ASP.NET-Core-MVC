@@ -13,6 +13,17 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BannerId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="PlacementKey" class="control-label"></label>
+                <input asp-for="PlacementKey" class="form-control" placeholder="e.g. home-hero, offers-index-hero" />
+                <span asp-validation-for="PlacementKey" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CompanyNameLabel" class="control-label"></label>
+                <input asp-for="CompanyNameLabel" class="form-control" placeholder="e.g. PrestivaCars" />
+                <span asp-validation-for="CompanyNameLabel" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />

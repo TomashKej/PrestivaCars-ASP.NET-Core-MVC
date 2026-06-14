@@ -1,0 +1,67 @@
+﻿@model PrestivaCars.Data.Data.CMS.Page
+
+<div class="row g-3">
+
+    <div class="col-md-6">
+        <label asp-for="LinkTitle" class="form-label"></label>
+        <input asp-for="LinkTitle" class="form-control" placeholder="E.g. FAQ, About Us, Privacy" />
+        <span asp-validation-for="LinkTitle" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" placeholder="E.g. Frequently Asked Questions" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-8">
+        <label asp-for="Slug" class="form-label"></label>
+        <input asp-for="Slug" class="form-control" placeholder="E.g. faq, about-us, privacy-policy" />
+        <span asp-validation-for="Slug" class="text-danger"></span>
+        <div class="form-text">
+            Slug is used in the public portal URL, for example: /Pages/Details?slug=faq
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Position" class="form-label"></label>
+        <input asp-for="Position" class="form-control" type="number" />
+        <span asp-validation-for="Position" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="ShortDescription" class="form-label"></label>
+        <textarea asp-for="ShortDescription"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Short text displayed in the page hero or summary area..."></textarea>
+        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="Content" class="form-label"></label>
+        <textarea asp-for="Content"
+                  class="form-control"
+                  rows="10"
+                  placeholder="HTML content, e.g. <h2>Title</h2><p>Page content...</p>"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+        <div class="form-text">
+            You can use simple HTML tags such as &lt;h2&gt;, &lt;h4&gt;, &lt;p&gt;, &lt;ul&gt; and &lt;li&gt;.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-check mt-2">
+            <input asp-for="ShowInNavigation" class="form-check-input" />
+            <label asp-for="ShowInNavigation" class="form-check-label"></label>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-check mt-2">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+    </div>
+
+</div>

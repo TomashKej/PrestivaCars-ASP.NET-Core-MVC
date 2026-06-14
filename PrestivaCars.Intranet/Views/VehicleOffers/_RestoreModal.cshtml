@@ -1,0 +1,49 @@
+﻿@model PrestivaCars.Data.Data.Vehicles.VehicleOffer
+
+<div class="modal-header border-0 pb-0">
+    <h5 class="modal-title fw-semibold">Confirm restore</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body pt-2">
+    <p class="mb-3 text-muted">
+        Are you sure you want to restore this vehicle offer?
+    </p>
+
+    <div class="p-3 rounded-3 bg-light border">
+        <strong>@Model.Title</strong>
+
+        <div class="small text-muted mt-1">
+            Vehicle:
+            @(Model.Vehicle?.Brand?.Name ?? "No brand")
+            @(Model.Vehicle?.Model ?? "No model")
+        </div>
+    </div>
+
+    <div class="mt-3 small text-muted">
+        <div><strong>Category:</strong> @(Model.Vehicle?.VehicleCategory?.Name ?? "No category")</div>
+        <div><strong>Price:</strong> @Model.Price.ToString("C")</div>
+        <div><strong>Location:</strong> @(string.IsNullOrWhiteSpace(Model.Location) ? "No location" : Model.Location)</div>
+        <div><strong>Featured:</strong> @(Model.IsFeatured ? "Yes" : "No")</div>
+    </div>
+
+    <p class="small text-muted mt-3 mb-0">
+        This action will mark the offer as active again. It can be displayed on the public portal.
+    </p>
+</div>
+
+<div class="modal-footer border-0 pt-0">
+    <form asp-action="Restore" method="post" class="d-flex gap-2">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="id" value="@Model.VehicleOfferId" />
+
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Cancel
+        </button>
+
+        <button type="submit" class="btn btn-success">
+            Restore offer
+        </button>
+    </form>
+</div>

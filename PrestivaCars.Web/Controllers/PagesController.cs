@@ -19,13 +19,9 @@ namespace PrestivaCars.Web.Controllers
         }
 
         // GET: Pages/Details/about-us
+        [HttpGet("pages/{slug}")]
         public async Task<IActionResult> Details(string slug)
         {
-            if (string.IsNullOrWhiteSpace(slug))
-            {
-                return NotFound();
-            }
-
             var page = await _pageService.GetPageBySlugAsync(slug);
 
             if (page == null)

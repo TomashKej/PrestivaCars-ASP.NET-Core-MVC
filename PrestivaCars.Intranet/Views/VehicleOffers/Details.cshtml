@@ -1,102 +1,405 @@
 ﻿@model PrestivaCars.Data.Data.Vehicles.VehicleOffer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Vehicle Offer Details";
+
+    var activeImages = Model.VehicleImages
+        .Where(i => i.IsActive)
+        .OrderByDescending(i => i.IsMain)
+        .ThenBy(i => i.Position)
+        .ToList();
+
+    var mainImage = activeImages.FirstOrDefault();
+
+    var additionalImages = activeImages
+        .Where(i => mainImage == null || i.VehicleImageId != mainImage.VehicleImageId)
+        .ToList();
 }
 
-<h1>Details</h1>
+<!-- The following section displays the main and additional images for the vehicle offer -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h3 class="mb-1">Vehicle Offer Details</h3>
+        <p class="text-muted mb-0">
+            Complete public offer information displayed on the Portal.
+        </p>
+    </div>
 
-<div>
-    <h4>VehicleOffer</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsFeatured)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsFeatured)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Vehicle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vehicle.Brand)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedBy)
-        </dd>
-    </dl>
+    <div class="d-flex gap-2 flex-wrap">
+        <a asp-action="Edit" asp-route-id="@Model.VehicleOfferId" class="btn btn-primary">
+            Edit Offer
+        </a>
+
+        @if (Model.IsActive)
+        {
+            <button type="button"
+                    class="btn btn-danger js-delete-btn"
+                    data-delete-url="@Url.Action("Delete", "VehicleOffers", new { id = Model.VehicleOfferId })">
+                Delete
+            </button>
+        }
+        else
+        {
+            <button type="button"
+                    class="btn btn-success js-restore-btn"
+                    data-restore-url="@Url.Action("Restore", "VehicleOffers", new { id = Model.VehicleOfferId })">
+                Restore
+            </button>
+        }
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.VehicleOfferId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h4 class="mb-1">@Model.Title</h4>
+
+                <p class="text-muted mb-2">
+                    Offer ID: @Model.VehicleOfferId
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge text-bg-light border">
+                        Slug: @Model.Slug
+                    </span>
+
+                    <span class="badge text-bg-light border">
+                        Location: @(string.IsNullOrWhiteSpace(Model.Location) ? "No location" : Model.Location)
+                    </span>
+
+                    @if (Model.IsFeatured)
+                    {
+                        <span class="badge bg-warning text-dark">
+                            Featured Offer
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">
+                            Standard Offer
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="text-md-end">
+                <div class="fs-3 fw-bold text-primary mb-2">
+                    @Model.Price.ToString("C")
+                </div>
+
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success px-3 py-2">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger px-3 py-2">Inactive</span>
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="row g-4">
+
+    <div class="col-lg-7">
+        <div class="card shadow-lg border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-1">Offer Image</h5>
+                <p class="text-muted mb-0 small">
+                    Main image displayed for this offer on the public Portal.
+                </p>
+            </div>
+
+            <div class="card-body px-4 pb-4">
+                @if (mainImage != null)
+                {
+                    <div class="border rounded-4 overflow-hidden bg-light">
+                        <img src="@mainImage.ImagePath"
+                             alt="@mainImage.AltText"
+                             class="img-fluid w-100"
+                             style="max-height: 420px; object-fit: cover;" />
+                    </div>
+                }
+                else
+                {
+                    <div class="border rounded-4 bg-light d-flex align-items-center justify-content-center"
+                         style="min-height: 320px;">
+                        <div class="text-center text-muted">
+                            <div class="fs-5 fw-semibold mb-1">No main image</div>
+                            <div class="small">Offer image has not been uploaded yet.</div>
+                        </div>
+                    </div>
+                }
+
+                @if (additionalImages.Any())
+                {
+                    <div class="row g-3 mt-2">
+                        @foreach (var image in additionalImages)
+                        {
+                            <div class="col-6 col-md-4">
+                                <div class="border rounded-3 overflow-hidden bg-light">
+                                    <img src="@image.ImagePath"
+                                         alt="@image.AltText"
+                                         class="img-fluid w-100"
+                                         style="height: 120px; object-fit: cover;" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card shadow-lg border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-1">Linked Vehicle</h5>
+                <p class="text-muted mb-0 small">
+                    Vehicle catalogue record connected with this offer.
+                </p>
+            </div>
+
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Vehicle</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.Brand?.Name ?? "No brand")
+                            @(Model.Vehicle?.Model ?? "No model")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Category</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.VehicleCategory?.Name ?? "No category")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Year</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.ProductionYear.ToString() ?? "N/A")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Mileage</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.Mileage.ToString() ?? "N/A")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Fuel type</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.FuelType?.Name ?? "No fuel type")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Transmission</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.TransmissionType?.Name ?? "No transmission")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Body type</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.BodyType?.Name ?? "No body type")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Colour</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.VehicleColour?.ColourName ?? "No colour")
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Power</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.PowerHp.ToString() ?? "N/A") HP
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block">Engine</label>
+                        <div class="fw-semibold">
+                            @(Model.Vehicle?.EngineCapacity.ToString() ?? "N/A") cc
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Vehicle != null)
+                {
+                    <div class="mt-4">
+                        <a asp-controller="Vehicles"
+                               asp-action="Details"
+                               asp-route-id="@Model.Vehicle.VehicleId"
+                               class="btn btn-outline-primary w-100">
+                            View Vehicle Record
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card shadow-lg border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-1">Offer Description</h5>
+                <p class="text-muted mb-0 small">
+                    Text displayed on the public offer details page.
+                </p>
+            </div>
+
+            <div class="card-body px-4 pb-4">
+                <div class="border rounded-3 bg-light p-3">
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p class="mb-0" style="white-space: pre-line;">@Model.Description</p>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No description provided.</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-lg border-0 h-100">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-1">Offer Settings</h5>
+                <p class="text-muted mb-0 small">
+                    Portal visibility and offer configuration.
+                </p>
+            </div>
+
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Current status</label>
+                        <div class="fw-semibold">
+                            @(Model.IsActive ? "Active" : "Inactive")
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Featured</label>
+                        <div class="fw-semibold">
+                            @(Model.IsFeatured ? "Yes" : "No")
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Saved offers count</label>
+                        <div class="fw-semibold">
+                            @(Model.SavedOffers?.Count ?? 0)
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="text-muted small d-block">Images count</label>
+                        <div class="fw-semibold">
+                            @(Model.VehicleImages?.Count ?? 0)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="mb-1">Audit Information</h5>
+                <p class="text-muted mb-0 small">
+                    System information about creation, modification and soft delete status.
+                </p>
+            </div>
+
+            <div class="card-body px-4 pb-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="border rounded-3 p-3 bg-light h-100">
+                            <div class="text-muted small mb-1">Created At</div>
+                            <strong>@Model.CreatedAt.ToString("dd MMM yyyy HH:mm")</strong>
+
+                            <div class="text-muted small mt-2">Created By</div>
+                            <span>@Model.CreatedBy</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="border rounded-3 p-3 bg-light h-100">
+                            <div class="text-muted small mb-1">Updated At</div>
+
+                            @if (Model.UpdatedAt.HasValue)
+                            {
+                                <strong>@Model.UpdatedAt.Value.ToString("dd MMM yyyy HH:mm")</strong>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not updated</span>
+                            }
+
+                            <div class="text-muted small mt-2">Updated By</div>
+                            <span>@Model.UpdatedBy</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="border rounded-3 p-3 bg-light h-100">
+                            <div class="text-muted small mb-1">Deleted At</div>
+
+                            @if (Model.DeletedAt.HasValue)
+                            {
+                                <strong>@Model.DeletedAt.Value.ToString("dd MMM yyyy HH:mm")</strong>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not deleted</span>
+                            }
+
+                            <div class="text-muted small mt-2">Deleted By</div>
+                            <span>@Model.DeletedBy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="deleteModalContent">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="restoreModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="restoreModalContent">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/delete-modal.js" asp-append-version="true"></script>
+    <script src="~/js/restore-modal.js" asp-append-version="true"></script>
+}

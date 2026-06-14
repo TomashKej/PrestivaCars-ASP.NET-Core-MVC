@@ -1,0 +1,78 @@
+﻿@model PrestivaCars.Data.Data.CMS.Banner
+
+<div class="row g-3">
+
+    <div class="col-md-6">
+        <label asp-for="PlacementKey" class="form-label"></label>
+        <input asp-for="PlacementKey"
+               class="form-control"
+               placeholder="E.g. home-hero, offers-index-hero, category-2-hero" />
+        <span asp-validation-for="PlacementKey" class="text-danger"></span>
+        <div class="form-text">
+            Placement key decides where this banner appears on the public portal.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="CompanyNameLabel" class="form-label"></label>
+        <input asp-for="CompanyNameLabel"
+               class="form-control"
+               placeholder="E.g. PrestivaCars" />
+        <span asp-validation-for="CompanyNameLabel" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-8">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title"
+               class="form-control"
+               placeholder="E.g. Find the right car for your next journey" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Position" class="form-label"></label>
+        <input asp-for="Position" class="form-control" type="number" />
+        <span asp-validation-for="Position" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="Subtitle" class="form-label"></label>
+        <textarea asp-for="Subtitle"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Short banner description displayed under the title..."></textarea>
+        <span asp-validation-for="Subtitle" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ButtonText" class="form-label"></label>
+        <input asp-for="ButtonText"
+               class="form-control"
+               placeholder="E.g. Browse cars, Read more, Contact us" />
+        <span asp-validation-for="ButtonText" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ButtonUrl" class="form-label"></label>
+        <input asp-for="ButtonUrl"
+               class="form-control"
+               placeholder="E.g. /Offers, /Pages/Details?slug=faq" />
+        <span asp-validation-for="ButtonUrl" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="ImagePath" class="form-label"></label>
+        <input asp-for="ImagePath"
+               class="form-control"
+               placeholder="E.g. /content/banners/home-hero.jpg" />
+        <span asp-validation-for="ImagePath" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+        <div class="form-check">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+    </div>
+
+</div>

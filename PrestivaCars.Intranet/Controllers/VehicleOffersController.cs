@@ -62,6 +62,7 @@ namespace PrestivaCars.Intranet.Controllers
                     .ThenInclude(v => v.BodyType)
                 .Include(o => o.Vehicle)
                     .ThenInclude(v => v.VehicleColour)
+                .Include(o => o.VehicleImages)
                 .FirstOrDefaultAsync(o => o.VehicleOfferId == id);
 
             if (vehicleOffer == null)
@@ -244,14 +245,16 @@ namespace PrestivaCars.Intranet.Controllers
                 .AsNoTracking()
                 .Include(o => o.Vehicle)
                     .ThenInclude(v => v.Brand)
-                .FirstOrDefaultAsync(o => o.VehicleOfferId == id);
+                .Include(o => o.Vehicle)
+                    .ThenInclude(v => v.VehicleCategory)
+                .FirstOrDefaultAsync(o => o.VehicleOfferId == id && o.IsActive);
 
             if (vehicleOffer == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleOffer);
+            return PartialView("_DeleteModal", vehicleOffer);
         }
 
         // POST: VehicleOffers/Delete/5
@@ -273,6 +276,112 @@ namespace PrestivaCars.Intranet.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var offers = await _context.VehicleOffers
+                .Where(o => selectedIds.Contains(o.VehicleOfferId) && o.IsActive)
+                .ToListAsync();
+
+            foreach (var offer in offers)
+            {
+                offer.IsActive = false;
+                offer.DeletedAt = DateTime.UtcNow;
+                offer.DeletedBy = "Admin";
+            }
+
+            if (offers.Any())
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: VehicleOffers/Restore/5
+        [HttpGet]
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleOffer = await _context.VehicleOffers
+                .AsNoTracking()
+                .Include(o => o.Vehicle)
+                    .ThenInclude(v => v.Brand)
+                .Include(o => o.Vehicle)
+                    .ThenInclude(v => v.VehicleCategory)
+                .FirstOrDefaultAsync(o => o.VehicleOfferId == id && !o.IsActive);
+
+            if (vehicleOffer == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_RestoreModal", vehicleOffer);
+        }
+
+        // POST: VehicleOffers/Restore/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var vehicleOffer = await _context.VehicleOffers.FindAsync(id);
+
+            if (vehicleOffer != null && !vehicleOffer.IsActive)
+            {
+                vehicleOffer.IsActive = true;
+                vehicleOffer.DeletedAt = null;
+                vehicleOffer.DeletedBy = string.Empty;
+                vehicleOffer.UpdatedAt = DateTime.UtcNow;
+                vehicleOffer.UpdatedBy = "Admin";
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: VehicleOffers/BulkRestore
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkRestore(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var offers = await _context.VehicleOffers
+                .Where(o => selectedIds.Contains(o.VehicleOfferId) && !o.IsActive)
+                .ToListAsync();
+
+            foreach (var offer in offers)
+            {
+                offer.IsActive = true;
+                offer.DeletedAt = null;
+                offer.DeletedBy = string.Empty;
+                offer.UpdatedAt = DateTime.UtcNow;
+                offer.UpdatedBy = "Admin";
+            }
+
+            if (offers.Any())
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: VehicleOffers/PopulateVehiclesDropDownList
         private async Task PopulateVehiclesDropDownListAsync(int? selectedVehicleId = null)
         {
             var vehicles = await _context.Vehicles

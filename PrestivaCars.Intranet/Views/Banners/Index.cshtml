@@ -1,107 +1,263 @@
 ﻿@model IEnumerable<PrestivaCars.Data.Data.CMS.Banner>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Banners";
 }
 
-<h1>Index</h1>
+<form method="post" id="bulkActionForm">
+    @Html.AntiForgeryToken()
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subtitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ButtonText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ButtonUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedBy)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subtitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ButtonText)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ButtonUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedBy)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BannerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BannerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BannerId">Delete</a>
-            </td>
-        </tr>
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h3 class="mb-1">Portal Banners</h3>
+            <p class="text-muted mb-0">
+                Manage dynamic hero banners displayed on the public portal.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+            <button type="button"
+                    class="btn btn-outline-danger"
+                    id="bulkDeleteButton"
+                    data-bulk-action="@Url.Action("BulkDelete", "Banners")"
+                    data-bulk-type="delete"
+                    data-entity-name="banner"
+                    disabled>
+                Delete Selected
+            </button>
+
+            <button type="button"
+                    class="btn btn-outline-success"
+                    id="bulkRestoreButton"
+                    data-bulk-action="@Url.Action("BulkRestore", "Banners")"
+                    data-bulk-type="restore"
+                    data-entity-name="banner"
+                    disabled>
+                Restore Selected
+            </button>
+
+            <a asp-action="Create" class="btn btn-success">
+                Add Banner
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <div class="p-4">
+                    <div class="alert alert-info mb-0">
+                        No banners have been created yet.
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 44px;">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="selectAllCheckbox"
+                                           title="Select all banners" />
+                                </th>
+
+                                <th>Banner</th>
+                                <th>Placement</th>
+                                <th>Button</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox"
+                                               class="form-check-input bulk-checkbox"
+                                               name="selectedIds"
+                                               value="@item.BannerId"
+                                               data-active="@item.IsActive.ToString().ToLowerInvariant()" />
+                                    </td>
+
+                                    <td>
+                                        <div class="fw-semibold">@item.Title</div>
+
+                                        @if (!string.IsNullOrWhiteSpace(item.CompanyNameLabel))
+                                        {
+                                            <div class="text-muted small">
+                                                Label: @item.CompanyNameLabel
+                                            </div>
+                                        }
+
+                                        @if (!string.IsNullOrWhiteSpace(item.Subtitle))
+                                        {
+                                            <div class="text-muted small mt-1">
+                                                @item.Subtitle
+                                            </div>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <code>@item.PlacementKey</code>
+                                    </td>
+
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(item.ButtonText))
+                                        {
+                                            <div class="fw-semibold">@item.ButtonText</div>
+
+                                            @if (!string.IsNullOrWhiteSpace(item.ButtonUrl))
+                                            {
+                                                <div class="text-muted small">@item.ButtonUrl</div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No button</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @item.Position
+                                    </td>
+
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Inactive</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @item.CreatedAt.ToString("dd MMM yyyy")
+                                    </td>
+
+                                    <td class="text-end">
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details"
+                                                   asp-route-id="@item.BannerId"
+                                                   class="btn btn-sm btn-outline-info">
+                                                Details
+                                            </a>
+
+                                            <a asp-action="Edit"
+                                                   asp-route-id="@item.BannerId"
+                                                   class="btn btn-sm btn-outline-primary">
+                                                Edit
+                                            </a>
+
+                                            @if (item.IsActive)
+                                            {
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger js-delete-btn"
+                                                        data-delete-url="@Url.Action("Delete", "Banners", new { id = item.BannerId })">
+                                                    Delete
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-success js-restore-btn"
+                                                        data-restore-url="@Url.Action("Restore", "Banners", new { id = item.BannerId })">
+                                                    Restore
+                                                </button>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="deleteModalContent">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="restoreModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="restoreModalContent">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bulkActionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-semibold" id="bulkActionModalTitle">
+                    Confirm action
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <div class="modal-body pt-2">
+                <p class="mb-3 text-muted" id="bulkActionModalMessage">
+                    Are you sure you want to continue?
+                </p>
+
+                <div class="p-3 rounded-3 bg-light border">
+                    <strong id="bulkActionModalCount">
+                        0 selected records
+                    </strong>
+
+                    <div class="small text-muted mt-1" id="bulkActionModalInfo">
+                        Selected records will be updated.
+                    </div>
+                </div>
+
+                <p class="small text-muted mt-3 mb-0" id="bulkActionModalNote">
+                    This operation uses the soft delete mechanism.
+                </p>
+            </div>
+
+            <div class="modal-footer border-0 pt-0">
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="btn"
+                        id="bulkActionSubmitButton"
+                        form="bulkActionForm"
+                        formmethod="post">
+                    Confirm
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/delete-modal.js" asp-append-version="true"></script>
+    <script src="~/js/restore-modal.js" asp-append-version="true"></script>
+    <script src="~/js/bulk-actions-modal.js" asp-append-version="true"></script>
 }
-    </tbody>
-</table>

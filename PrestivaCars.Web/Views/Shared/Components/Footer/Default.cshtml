@@ -1,0 +1,107 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.CMS.Page>
+
+@{
+    var footerAbout = ViewBag.FooterAbout as PrestivaCars.Data.Data.CMS.Page;
+
+    var companyPages = Model
+        .Where(p => p.Slug == "about-us" || p.Slug == "faq")
+        .ToList();
+
+    var legalPages = Model
+        .Where(p => p.Slug == "privacy-policy" || p.Slug == "terms-and-conditions" || p.Slug == "cookie-policy")
+        .ToList();
+}
+
+<footer class="prestiva-footer">
+    <div class="container">
+        <div class="prestiva-footer-main">
+
+            <div class="prestiva-footer-column prestiva-footer-about">
+                <a asp-controller="Home"
+                       asp-action="Index"
+                       class="d-inline-block mb-3">
+                    <img src="~/content/appLogo/LogoV1Smaller.jpg"
+                         alt="PrestivaCars logo"
+                         class="prestiva-footer-logo" />
+                </a>
+
+                <p class="prestiva-footer-text">
+                    @(footerAbout?.ShortDescription ?? "PrestivaCars helps you browse selected vehicle offers, compare key details and find the right car with confidence.")
+                </p>
+
+                <div class="prestiva-footer-links-inline">
+                    <a asp-controller="Offers" asp-action="Index">Browse Cars</a>
+
+                    @foreach (var footerPage in companyPages)
+                    {
+                        <a asp-controller="Pages"
+                               asp-action="Details"
+                               asp-route-slug="@footerPage.Slug">
+                            @footerPage.LinkTitle
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="prestiva-footer-column prestiva-footer-navigation">
+                <h5 class="prestiva-footer-title">Company</h5>
+
+                <ul class="prestiva-footer-list">
+                    <li>
+                        <a asp-controller="Offers" asp-action="Index">
+                            Browse Cars
+                        </a>
+                    </li>
+
+                    @foreach (var footerPage in companyPages)
+                    {
+                        <li>
+                            <a asp-controller="Pages"
+                                   asp-action="Details"
+                                   asp-route-slug="@footerPage.Slug">
+                                @footerPage.LinkTitle
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="prestiva-footer-column prestiva-footer-support">
+                <h5 class="prestiva-footer-title">Legal & Support</h5>
+
+                <ul class="prestiva-footer-list">
+                    @foreach (var footerPage in legalPages)
+                    {
+                        <li>
+                            <a asp-controller="Pages"
+                                   asp-action="Details"
+                                   asp-route-slug="@footerPage.Slug">
+                                @footerPage.LinkTitle
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+
+        <hr class="prestiva-footer-divider" />
+
+        <div class="prestiva-footer-bottom">
+            <p class="mb-0">
+                &copy; @DateTime.Now.Year PrestivaCars. All rights reserved.
+            </p>
+
+            <div class="prestiva-footer-bottom-links">
+                @foreach (var footerPage in legalPages)
+                {
+                    <a asp-controller="Pages"
+                           asp-action="Details"
+                           asp-route-slug="@footerPage.Slug">
+                        @footerPage.LinkTitle
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</footer>

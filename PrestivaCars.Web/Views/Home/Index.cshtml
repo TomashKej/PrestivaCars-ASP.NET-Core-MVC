@@ -1,22 +1,30 @@
-﻿@using PrestivaCars.Data.Data.Vehicles
+﻿@using PrestivaCars.Data.Data.CMS
+@using PrestivaCars.Data.Data.Vehicles
 
 @{
     ViewData["Title"] = "Home";
 
+    var heroBanner = ViewBag.HeroBanner as Banner;
     var featuredOffers = ViewBag.FeaturedOffers as IEnumerable<VehicleOffer> ?? Enumerable.Empty<VehicleOffer>();
     var categories = ViewBag.VehicleCategories as IEnumerable<VehicleCategory> ?? Enumerable.Empty<VehicleCategory>();
 }
 
+<!-- SECTION : HERO -->
 <section class="prestiva-home-hero">
     <div class="container">
         <div class="prestiva-home-hero-grid">
             <div class="prestiva-home-hero-content">
-                <span class="prestiva-hero-label">PrestivaCars</span>
 
-                <h1>Find the right car for your next journey</h1>
+                <span class="prestiva-hero-label">
+                    @(heroBanner?.CompanyNameLabel ?? "PrestivaCars")
+                </span>
+
+                <h1>
+                    @(heroBanner?.Title ?? "Find the right car for your next journey")
+                </h1>
 
                 <p>
-                    Search trusted vehicle offers, compare key specifications and browse cars by category, fuel type, transmission and more.
+                    @(heroBanner?.Subtitle ?? "Search trusted vehicle offers, compare key specifications and browse cars by category.")
                 </p>
 
                 <form asp-controller="Offers"
@@ -34,7 +42,7 @@
                     </div>
 
                     <button type="submit" class="btn prestiva-home-search-btn">
-                        Search cars
+                        @(heroBanner?.ButtonText ?? "Search cars")
                     </button>
                 </form>
 
@@ -65,7 +73,7 @@
                 <div class="prestiva-home-card-divider"></div>
 
                 <p>
-                    Public portal powered by MVC, Entity Framework and dynamic vehicle data from PrestivaCars.
+                    Browse carefully selected vehicles, compare key details and find a car that suits your lifestyle, budget and everyday needs.
                 </p>
             </div>
         </div>

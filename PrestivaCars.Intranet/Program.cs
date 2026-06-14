@@ -1,16 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using PrestivaCars.Data.Data;
+using PrestivaCars.Interfaces.Export;
 using PrestivaCars.Intranet.Services;
+using PrestivaCars.Services.Export;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<VehicleFormService>();
+builder.Services.AddScoped<IVehicleExcelExportService, VehicleExcelExportService>();
 
 // Configure the database context to use SQL Server with the connection string from appsettings.json
 builder.Services.AddDbContext<PrestivaCarsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PrestivaCarsContext")));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

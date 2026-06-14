@@ -1,0 +1,51 @@
+﻿@model PrestivaCars.Data.Data.CMS.Banner
+
+<div class="modal-header border-0 pb-0">
+    <h5 class="modal-title fw-semibold">Confirm restore</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body pt-2">
+    <p class="mb-3 text-muted">
+        Are you sure you want to restore this banner?
+    </p>
+
+    <div class="p-3 rounded-3 bg-light border">
+        <strong>@Model.Title</strong>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+        {
+            <div class="small text-muted mt-1">
+                @Model.Subtitle
+            </div>
+        }
+    </div>
+
+    <div class="mt-3 small text-muted">
+        <div><strong>Placement key:</strong> @Model.PlacementKey</div>
+        <div><strong>Company label:</strong> @Model.CompanyNameLabel</div>
+        <div><strong>Button:</strong> @(string.IsNullOrWhiteSpace(Model.ButtonText) ? "No button" : Model.ButtonText)</div>
+        <div><strong>Button URL:</strong> @(string.IsNullOrWhiteSpace(Model.ButtonUrl) ? "No URL" : Model.ButtonUrl)</div>
+        <div><strong>Position:</strong> @Model.Position</div>
+    </div>
+
+    <p class="small text-muted mt-3 mb-0">
+        This action will mark the banner as active again. It can be displayed on the public portal if its placement key is used.
+    </p>
+</div>
+
+<div class="modal-footer border-0 pt-0">
+    <form asp-action="Restore" method="post" class="d-flex gap-2">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="id" value="@Model.BannerId" />
+
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Cancel
+        </button>
+
+        <button type="submit" class="btn btn-success">
+            Restore banner
+        </button>
+    </form>
+</div>

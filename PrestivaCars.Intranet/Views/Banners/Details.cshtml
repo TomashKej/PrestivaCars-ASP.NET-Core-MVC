@@ -1,96 +1,290 @@
 ﻿@model PrestivaCars.Data.Data.CMS.Banner
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Banner Details";
+
+    var hasImage = !string.IsNullOrWhiteSpace(Model.ImagePath);
 }
 
-<h1>Details</h1>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h3 class="mb-1">Banner Details</h3>
+        <p class="text-muted mb-0">
+            Complete banner information used by the public portal.
+        </p>
+    </div>
 
-<div>
-    <h4>Banner</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subtitle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subtitle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ButtonText)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ButtonText)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ButtonUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ButtonUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedBy)
-        </dd>
-    </dl>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.BannerId" class="btn btn-primary">
+            Edit Banner
+        </a>
+
+        @if (Model.IsActive)
+        {
+            <button type="button"
+                    class="btn btn-danger js-delete-btn"
+                    data-id="@Model.BannerId">
+                Delete
+            </button>
+        }
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.BannerId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+            <div>
+                <h4 class="mb-1">@Model.Title</h4>
+
+                @if (!string.IsNullOrWhiteSpace(Model.CompanyNameLabel))
+                {
+                    <p class="text-muted mb-0">
+                        Label: <strong>@Model.CompanyNameLabel</strong>
+                    </p>
+                }
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success px-3 py-2">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger px-3 py-2">Inactive</span>
+                }
+
+                <span class="badge bg-primary px-3 py-2">
+                    Position: @Model.Position
+                </span>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Placement Key</div>
+                    <code>@Model.PlacementKey</code>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Position</div>
+                    <strong>@Model.Position</strong>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Banner ID</div>
+                    <strong>@Model.BannerId</strong>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Subtitle</div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+                    {
+                        <p class="mb-0">@Model.Subtitle</p>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No subtitle provided.</span>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Button Text</div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ButtonText))
+                    {
+                        <strong>@Model.ButtonText</strong>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No button text provided.</span>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Button URL</div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ButtonUrl))
+                    {
+                        <code>@Model.ButtonUrl</code>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No button URL provided.</span>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="border rounded-3 p-3 h-100 bg-light">
+                    <div class="text-muted small mb-1">Image Path</div>
+
+                    @if (hasImage)
+                    {
+                        <code>@Model.ImagePath</code>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No image path provided.</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="card shadow-lg border-0 mb-4">
+    <div class="card-header bg-white border-0 pt-4 px-4">
+        <h5 class="mb-1">Banner Preview</h5>
+        <p class="text-muted mb-0">
+            Simple preview of how this banner content appears on the public portal.
+        </p>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="rounded-4 p-4 text-white"
+             style="background: linear-gradient(135deg, #07111f 0%, #10233f 55%, #164a8b 100%);">
+            
+            @if (!string.IsNullOrWhiteSpace(Model.CompanyNameLabel))
+            {
+                <span class="badge bg-light text-dark mb-3">
+                    @Model.CompanyNameLabel
+                </span>
+            }
+
+            <h2 class="fw-bold mb-3">@Model.Title</h2>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+            {
+                <p class="mb-4" style="max-width: 720px; color: rgba(255,255,255,0.78);">
+                    @Model.Subtitle
+                </p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.ButtonText) && !string.IsNullOrWhiteSpace(Model.ButtonUrl))
+            {
+                <span class="btn btn-primary">
+                    @Model.ButtonText
+                </span>
+            }
+        </div>
+
+        @if (hasImage)
+        {
+            <div class="mt-4">
+                <h6 class="fw-semibold mb-3">Image Preview</h6>
+
+                <div class="border rounded-4 overflow-hidden bg-light">
+                    <img src="@Model.ImagePath"
+                         alt="@Model.Title"
+                         class="img-fluid w-100"
+                         style="max-height: 320px; object-fit: cover;" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card shadow-lg border-0">
+    <div class="card-header bg-white border-0 pt-4 px-4">
+        <h5 class="mb-1">Audit Information</h5>
+        <p class="text-muted mb-0">
+            System information about creation, modification and soft delete status.
+        </p>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 bg-light h-100">
+                    <div class="text-muted small mb-1">Created At</div>
+                    <strong>@Model.CreatedAt.ToString("dd MMM yyyy HH:mm")</strong>
+
+                    <div class="text-muted small mt-2">Created By</div>
+                    <span>@Model.CreatedBy</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 bg-light h-100">
+                    <div class="text-muted small mb-1">Updated At</div>
+
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        <strong>@Model.UpdatedAt.Value.ToString("dd MMM yyyy HH:mm")</strong>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Not updated</span>
+                    }
+
+                    <div class="text-muted small mt-2">Updated By</div>
+                    <span>@Model.UpdatedBy</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 bg-light h-100">
+                    <div class="text-muted small mb-1">Deleted At</div>
+
+                    @if (Model.DeletedAt.HasValue)
+                    {
+                        <strong>@Model.DeletedAt.Value.ToString("dd MMM yyyy HH:mm")</strong>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Not deleted</span>
+                    }
+
+                    <div class="text-muted small mt-2">Deleted By</div>
+                    <span>@Model.DeletedBy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const deleteButton = document.querySelector('.js-delete-btn');
+
+        if (deleteButton) {
+            deleteButton.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const modalElement = document.getElementById('deleteModal');
+                const modalContent = modalElement.querySelector('.modal-content');
+                const modal = new bootstrap.Modal(modalElement);
+
+                fetch('@Url.Action("Delete", "Banners")?id=' + id)
+                    .then(response => response.text())
+                    .then(html => {
+                        modalContent.innerHTML = html;
+                        modal.show();
+                    });
+            });
+        }
+    </script>
+}

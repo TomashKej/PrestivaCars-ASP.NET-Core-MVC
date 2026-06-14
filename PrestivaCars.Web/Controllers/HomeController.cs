@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PrestivaCars.Interfaces.CMS;
 using PrestivaCars.Interfaces.Vehicles;
 using PrestivaCars.Web.Models;
 using System.Diagnostics;
@@ -15,23 +16,34 @@ namespace PrestivaCars.Web.Controllers
     /// informational pages of the application.</remarks>
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //  Logger for logging information, warnings, and errors within the HomeController.
+        private readonly ILogger<HomeController> _logger;                       
+ 
+        // Services for retrieving vehicle offers, categories, page content, and banners to be displayed on the home page.
         private readonly IVehicleOfferService _vehicleOfferService;
         private readonly IVehicleCategoryService _vehicleCategoryService;
+        private readonly IPageService _pageService;
+        private readonly IBannerService _bannerService;
 
         public HomeController(
             ILogger<HomeController> logger,
             IVehicleOfferService vehicleOfferService,
-            IVehicleCategoryService vehicleCategoryService)
+            IVehicleCategoryService vehicleCategoryService,
+            IPageService pageService,
+            IBannerService bannerService)
         {
             _logger = logger;
             _vehicleOfferService = vehicleOfferService;
             _vehicleCategoryService = vehicleCategoryService;
+            _pageService = pageService;
+            _bannerService = bannerService;
         }
 
         // GET: Home/Index
         public async Task<IActionResult> Index()
         {
+            ViewBag.HomePage = await _pageService.GetPageBySlugAsync("home");
+            ViewBag.HeroBanner = await _bannerService.GetBannerByPlacementKeyAsync("home-hero");
             ViewBag.FeaturedOffers = await _vehicleOfferService.GetFeaturedOffersAsync(3);
             ViewBag.VehicleCategories = await _vehicleCategoryService.GetActiveCategoriesAsync();
 

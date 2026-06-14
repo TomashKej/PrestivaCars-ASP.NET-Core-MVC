@@ -1,49 +1,20 @@
-﻿@model IEnumerable<PrestivaCars.Data.Data.Vehicles.VehicleOffer>
+﻿@using PrestivaCars.Data.Data.CMS
+@using PrestivaCars.Data.Data.Vehicles
+
+@model IEnumerable<VehicleOffer>
 
 @{
     ViewData["Title"] = ViewBag.CategoryName ?? "Category";
+
+    var heroBanner = ViewBag.HeroBanner as Banner;
+
+    ViewData["ShowHeroSearch"] = true;
+    ViewData["SearchAction"] = "Category";
+    ViewData["SearchTerm"] = ViewBag.SearchTerm as string;
+    ViewData["CategoryId"] = ViewBag.CategoryId;
 }
 
-<section class="prestiva-category-hero">
-    <div class="container">
-        <span class="prestiva-hero-label">Vehicle category</span>
-
-        <h1>@ViewBag.CategoryName</h1>
-
-        @if (!string.IsNullOrWhiteSpace(ViewBag.CategoryDescription as string))
-        {
-            <p>@ViewBag.CategoryDescription</p>
-        }
-        <!-- Search form for filtering offers within the category -->
-        <form asp-controller="Offers"
-              asp-action="Category"
-              asp-route-id="@ViewBag.CategoryId"
-              method="get"
-              class="prestiva-search-form">
-
-            <div class="prestiva-search-input-wrapper">
-                <i class="bi bi-search"></i>
-
-                <input type="text"
-                       name="searchTerm"
-                       value="@ViewBag.SearchTerm"
-                       class="form-control"
-                       placeholder="Search in this category by brand, model, fuel, colour or location..." />
-            </div>
-
-            <button type="submit" class="btn prestiva-search-btn mt-1">
-                Search
-            </button>
-
-            <a asp-controller="Offers"
-                   asp-action="Category"
-                   asp-route-id="@ViewBag.CategoryId"
-                   class="btn prestiva-clear-btn mt-1">
-                Clear
-            </a>
-        </form>
-    </div>
-</section>
+<partial name="_HeroBanner" model="heroBanner" />
 
 <section class="prestiva-offers-section">
     <div class="container">

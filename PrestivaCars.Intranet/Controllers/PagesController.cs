@@ -125,13 +125,14 @@ namespace PrestivaCars.Intranet.Controllers
             }
 
             var page = await _context.Pages
-                .FirstOrDefaultAsync(m => m.PageId == id);
+                .FirstOrDefaultAsync(m => m.PageId == id && m.IsActive);
+
             if (page == null)
             {
                 return NotFound();
             }
 
-            return View(page);
+            return PartialView("_DeleteModal", page);
         }
 
         // POST: Pages/Delete/5
@@ -140,12 +141,109 @@ namespace PrestivaCars.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var page = await _context.Pages.FindAsync(id);
+
             if (page != null)
             {
                 _context.Pages.Remove(page);
             }
 
             await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Pages/BulkDelete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var pages = await _context.Pages
+                .Where(p => selectedIds.Contains(p.PageId) && p.IsActive)
+                .ToListAsync();
+
+            if (pages.Any())
+            {
+                _context.Pages.RemoveRange(pages);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Pages/Restore/5
+        [HttpGet]
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var page = await _context.Pages
+                .FirstOrDefaultAsync(p => p.PageId == id && !p.IsActive);
+
+            if (page == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_RestoreModal", page);
+        }
+
+        // POST: Pages/Restore/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var page = await _context.Pages.FindAsync(id);
+
+            if (page != null && !page.IsActive)
+            {
+                page.IsActive = true;
+                page.DeletedAt = null;
+                page.DeletedBy = string.Empty;
+                page.UpdatedAt = DateTime.Now;
+                page.UpdatedBy = "System";
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Pages/BulkRestore
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkRestore(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var pages = await _context.Pages
+                .Where(p => selectedIds.Contains(p.PageId) && !p.IsActive)
+                .ToListAsync();
+
+            foreach (var page in pages)
+            {
+                page.IsActive = true;
+                page.DeletedAt = null;
+                page.DeletedBy = string.Empty;
+                page.UpdatedAt = DateTime.Now;
+                page.UpdatedBy = "System";
+            }
+
+            if (pages.Any())
+            {
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,0 +1,94 @@
+﻿@model PrestivaCars.Data.Data.CMS.Banner?
+
+@{
+    var backgroundStyle = string.Empty;
+
+    if (!string.IsNullOrWhiteSpace(Model?.ImagePath))
+    {
+        backgroundStyle = $"background-image: linear-gradient(90deg, rgba(10, 15, 30, 0.92), rgba(10, 15, 30, 0.65)), url('{Url.Content(Model.ImagePath)}');";
+    }
+
+    var showSearch = ViewData["ShowHeroSearch"] as bool? ?? false;
+    var searchAction = ViewData["SearchAction"] as string ?? "Index";
+    var searchTerm = ViewData["SearchTerm"] as string;
+
+    
+    int? categoryId = null;
+    if (ViewData["categoryId"] is int id)
+    {
+        categoryId = id;    
+    }
+}
+
+@if (Model != null)
+{
+    <section class="prestiva-page-hero" style="@backgroundStyle">
+        <div class="container">
+            <div class="prestiva-page-hero-content">
+
+                @if (!string.IsNullOrWhiteSpace(Model.CompanyNameLabel))
+                {
+                    <span class="prestiva-hero-label">
+                        @Model.CompanyNameLabel
+                    </span>
+                }
+
+                <h1>@Model.Title</h1>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+                {
+                    <p>@Model.Subtitle</p>
+                }
+
+                @if (showSearch)
+                {
+                    <form asp-controller="Offers"
+                          asp-action="@searchAction"
+                          asp-route-id="@categoryId"
+                          method="get"
+                          class="prestiva-hero-search-form">
+
+                        <div class="prestiva-hero-search-box">
+                            <i class="bi bi-search"></i>
+
+                            <input type="text"
+                                   name="searchTerm"
+                                   value="@searchTerm"
+                                   class="form-control"
+                                   placeholder="Search by brand, model, fuel, colour or keyword..." />
+                        </div>
+
+                        <button type="submit" class="btn prestiva-hero-search-btn">
+                            Search
+                        </button>
+
+                        @if (categoryId.HasValue)
+                        {
+                            <a asp-controller="Offers"
+                               asp-action="@searchAction"
+                               asp-route-id="@categoryId"
+                               class="btn prestiva-hero-clear-btn">
+                                Clear
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Offers"
+                               asp-action="@searchAction"
+                               class="btn prestiva-hero-clear-btn">
+                                Clear
+                            </a>
+                        }
+                    </form>
+                }
+                else if (!string.IsNullOrWhiteSpace(Model.ButtonText) && !string.IsNullOrWhiteSpace(Model.ButtonUrl))
+                {
+                    <a href="@Url.Content(Model.ButtonUrl)" class="btn prestiva-hero-btn">
+                        @Model.ButtonText
+                    </a>
+                }
+
+            </div>
+        </div>
+    </section>
+}

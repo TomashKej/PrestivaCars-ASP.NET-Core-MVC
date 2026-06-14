@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PrestivaCars.Data.Data.CMS.Page>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid prestiva-navbar-container">
+
+        <a class="navbar-brand prestiva-brand me-4"
+           asp-controller="Home"
+           asp-action="Index">
+            <img src="~/content/appLogo/LogoV1Smaller.jpg"
+                 alt="PrestivaCars logo"
+                 class="prestiva-logo" />
+        </a>
+
+        <button class="navbar-toggler ms-auto"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav prestiva-main-nav align-items-lg-center mx-lg-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Offers" asp-action="Index">
+                        Browse Cars
+                    </a>
+                </li>
+
+                @foreach (var navPage in Model)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Pages"
+                           asp-action="Details"
+                               asp-route-slug="@navPage.Slug">
+                            @navPage.LinkTitle
+                        </a>
+                    </li>
+                }
+
+            </ul>
+
+            <div class="d-flex align-items-center prestiva-actions">
+                <a href="#"
+                   class="prestiva-action-btn prestiva-action-btn-badge"
+                   aria-label="Saved offers"
+                   title="Saved offers">
+                    <i class="bi bi-bookmark-heart"></i>
+                    <span class="prestiva-action-badge">0</span>
+                </a>
+
+                <a href="#"
+                   class="prestiva-action-btn"
+                   aria-label="Profile"
+                   title="Profile">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
