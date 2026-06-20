@@ -3,6 +3,40 @@
 @{
     ViewData["Title"] = "Vehicle Offer Details";
 
+    var portalBaseUrl = ViewBag.PortalBaseUrl as string ?? string.Empty;
+
+    string BuildImageUrl(string? imagePath)
+    {
+        if (string.IsNullOrWhiteSpace(imagePath))
+        {
+            return string.Empty;
+        }
+
+        var path = imagePath.Trim();
+
+        if (path.StartsWith("http://") || path.StartsWith("https://"))
+        {
+            return path;
+        }
+
+        if (path.StartsWith("~/"))
+        {
+            path = path.Replace("~/", "/");
+        }
+
+        if (!path.StartsWith("/"))
+        {
+            path = "/" + path;
+        }
+
+        if (string.IsNullOrWhiteSpace(portalBaseUrl))
+        {
+            return path;
+        }
+
+        return portalBaseUrl.TrimEnd('/') + path;
+    }
+
     var activeImages = Model.VehicleImages
         .Where(i => i.IsActive)
         .OrderByDescending(i => i.IsMain)
@@ -14,9 +48,13 @@
     var additionalImages = activeImages
         .Where(i => mainImage == null || i.VehicleImageId != mainImage.VehicleImageId)
         .ToList();
+
+    var mainImageUrl = mainImage == null
+        ? string.Empty
+        : BuildImageUrl(mainImage.ImagePath);
 }
 
-<!-- The following section displays the main and additional images for the vehicle offer -->
+<!-- Vehicle Offer Details -->
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
     <div>
         <h3 class="mb-1">Vehicle Offer Details</h3>
@@ -117,14 +155,25 @@
             </div>
 
             <div class="card-body px-4 pb-4">
-                @if (mainImage != null)
+                @if (!string.IsNullOrWhiteSpace(mainImageUrl))
                 {
                     <div class="border rounded-4 overflow-hidden bg-light">
-                        <img src="@mainImage.ImagePath"
-                             alt="@mainImage.AltText"
+                        <img src="@mainImageUrl"
+                             alt="@(string.IsNullOrWhiteSpace(mainImage?.AltText) ? Model.Title : mainImage.AltText)"
                              class="img-fluid w-100"
                              style="max-height: 420px; object-fit: cover;" />
                     </div>
+
+                    <div class="small text-muted mt-2">
+                        Image path: @mainImage?.ImagePath
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(portalBaseUrl))
+                    {
+                        <div class="small text-muted">
+                            Preview URL: @mainImageUrl
+                        </div>
+                    }
                 }
                 else
                 {
@@ -142,14 +191,23 @@
                     <div class="row g-3 mt-2">
                         @foreach (var image in additionalImages)
                         {
-                            <div class="col-6 col-md-4">
-                                <div class="border rounded-3 overflow-hidden bg-light">
-                                    <img src="@image.ImagePath"
-                                         alt="@image.AltText"
-                                         class="img-fluid w-100"
-                                         style="height: 120px; object-fit: cover;" />
+                            var imageUrl = BuildImageUrl(image.ImagePath);
+
+                            if (!string.IsNullOrWhiteSpace(imageUrl))
+                            {
+                                <div class="col-6 col-md-4">
+                                    <div class="border rounded-3 overflow-hidden bg-light">
+                                        <img src="@imageUrl"
+                                             alt="@(string.IsNullOrWhiteSpace(image.AltText) ? Model.Title : image.AltText)"
+                                             class="img-fluid w-100"
+                                             style="height: 120px; object-fit: cover;" />
+                                    </div>
+
+                                    <div class="small text-muted mt-1 text-truncate">
+                                        @image.ImagePath
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
                     </div>
                 }
@@ -244,9 +302,9 @@
                 {
                     <div class="mt-4">
                         <a asp-controller="Vehicles"
-                               asp-action="Details"
-                               asp-route-id="@Model.Vehicle.VehicleId"
-                               class="btn btn-outline-primary w-100">
+                           asp-action="Details"
+                           asp-route-id="@Model.Vehicle.VehicleId"
+                           class="btn btn-outline-primary w-100">
                             View Vehicle Record
                         </a>
                     </div>

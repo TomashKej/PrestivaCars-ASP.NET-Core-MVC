@@ -19,10 +19,12 @@ namespace PrestivaCars.Intranet.Controllers
     public class VehicleOffersController : Controller
     {
         private readonly PrestivaCarsContext _context;
+        private readonly IConfiguration _configuration; // Configuration for accessing application settings, such as file paths and other configurable parameters.
 
-        public VehicleOffersController(PrestivaCarsContext context)
+        public VehicleOffersController(PrestivaCarsContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: VehicleOffers
@@ -69,6 +71,9 @@ namespace PrestivaCars.Intranet.Controllers
             {
                 return NotFound();
             }
+
+            // Pass the portal base URL to the view for constructing full image URLs
+            ViewBag.PortalBaseUrl = GetPortalBaseUrl();
 
             return View(vehicleOffer);
         }
@@ -167,12 +172,24 @@ namespace PrestivaCars.Intranet.Controllers
                 return NotFound();
             }
 
-            var vehicleOffer = await _context.VehicleOffers.FindAsync(id);
+            var vehicleOffer = await _context.VehicleOffers
+                .Include(o => o.VehicleImages)
+                .FirstOrDefaultAsync(o => o.VehicleOfferId == id);
 
             if (vehicleOffer == null)
             {
                 return NotFound();
             }
+
+            var mainImage = vehicleOffer.VehicleImages
+                .Where(i => i.IsActive)
+                .OrderByDescending(i => i.IsMain)
+                .ThenBy(i => i.Position)
+                .FirstOrDefault();
+
+            ViewBag.MainImagePath = mainImage?.ImagePath ?? string.Empty;
+            ViewBag.MainImageAltText = mainImage?.AltText ?? string.Empty;
+            ViewBag.PortalBaseUrl = GetPortalBaseUrl();
 
             await PopulateVehiclesDropDownListAsync(vehicleOffer.VehicleId);
 
@@ -186,7 +203,10 @@ namespace PrestivaCars.Intranet.Controllers
         public async Task<IActionResult> Edit(
             int id,
             [Bind("VehicleOfferId,Title,Slug,Description,Price,Location,IsFeatured,VehicleId,IsActive")]
-            VehicleOffer vehicleOffer)
+            VehicleOffer vehicleOffer,
+            string? mainImagePath,
+            string? mainImageAltText,
+            IFormFile? mainImageFile)
         {
             if (id != vehicleOffer.VehicleOfferId)
             {
@@ -203,9 +223,18 @@ namespace PrestivaCars.Intranet.Controllers
             ModelState.Remove(nameof(VehicleOffer.SavedOffers));
             ModelState.Remove(nameof(VehicleOffer.VehicleImages));
 
+            var imageValidationMessage = ValidateOfferImage(mainImageFile);
+
+            if (!string.IsNullOrWhiteSpace(imageValidationMessage))
+            {
+                ModelState.AddModelError("mainImageFile", imageValidationMessage);
+            }
+
             if (ModelState.IsValid)
             {
-                var offerFromDb = await _context.VehicleOffers.FindAsync(id);
+                var offerFromDb = await _context.VehicleOffers
+                    .Include(o => o.VehicleImages)
+                    .FirstOrDefaultAsync(o => o.VehicleOfferId == id);
 
                 if (offerFromDb == null)
                 {
@@ -223,16 +252,26 @@ namespace PrestivaCars.Intranet.Controllers
                 offerFromDb.UpdatedAt = DateTime.UtcNow;
                 offerFromDb.UpdatedBy = "Admin";
 
+                await UpdateMainOfferImageAsync(
+                    offerFromDb,
+                    mainImagePath,
+                    mainImageAltText,
+                    mainImageFile
+                );
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewBag.MainImagePath = mainImagePath ?? string.Empty;
+            ViewBag.MainImageAltText = mainImageAltText ?? string.Empty;
+            ViewBag.PortalBaseUrl = GetPortalBaseUrl();
+
             await PopulateVehiclesDropDownListAsync(vehicleOffer.VehicleId);
 
             return View(vehicleOffer);
         }
-
         // GET: VehicleOffers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -479,13 +518,7 @@ namespace PrestivaCars.Intranet.Controllers
             var currentProjectPath = Directory.GetCurrentDirectory();
             var solutionPath = Directory.GetParent(currentProjectPath)?.FullName ?? currentProjectPath;
 
-            var webOffersDirectory = Path.Combine(
-                solutionPath,
-                "PrestivaCars.Web",
-                "wwwroot",
-                "content",
-                "offers"
-            );
+            var webOffersDirectory = Path.Combine(solutionPath,"PrestivaCars.Web", "wwwroot", "content", "offers");
 
             Directory.CreateDirectory(webOffersDirectory);
 
@@ -497,6 +530,103 @@ namespace PrestivaCars.Intranet.Controllers
             return $"/content/offers/{fileName}";
         }
 
+        /// <summary>
+        /// Updates the main image of a vehicle offer, either by saving a new uploaded image or updating the existing main image's path and alt text.
+        /// </summary>
+        /// <param name="offer"></param>
+        /// <param name="mainImagePath"></param>
+        /// <param name="mainImageAltText"></param>
+        /// <param name="mainImageFile"></param>
+        /// <returns></returns>
+        private async Task UpdateMainOfferImageAsync(VehicleOffer offer, string? mainImagePath, string? mainImageAltText, IFormFile? mainImageFile)
+        {
+            if (mainImageFile != null && mainImageFile.Length > 0)
+            {
+                mainImagePath = await SaveOfferImageAsync(mainImageFile, offer.Slug);
+            }
+
+            if (string.IsNullOrWhiteSpace(mainImagePath))
+            {
+                return;
+            }
+
+            mainImagePath = NormalizeImagePath(mainImagePath);
+
+            var currentMainImage = offer.VehicleImages
+                .Where(i => i.IsActive)
+                .OrderByDescending(i => i.IsMain)
+                .ThenBy(i => i.Position)
+                .FirstOrDefault();
+
+            foreach (var image in offer.VehicleImages)
+            {
+                image.IsMain = false;
+            }
+
+            if (currentMainImage == null)
+            {
+                var newImage = new VehicleImage
+                {
+                    ImagePath = mainImagePath,
+                    AltText = string.IsNullOrWhiteSpace(mainImageAltText)
+                        ? offer.Title
+                        : mainImageAltText,
+                    Position = 1,
+                    IsMain = true,
+                    VehicleOfferId = offer.VehicleOfferId,
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = "Admin"
+                };
+
+                _context.VehicleImages.Add(newImage);
+            }
+            else
+            {
+                currentMainImage.ImagePath = mainImagePath;
+                currentMainImage.AltText = string.IsNullOrWhiteSpace(mainImageAltText)
+                    ? offer.Title
+                    : mainImageAltText;
+                currentMainImage.Position = 1;
+                currentMainImage.IsMain = true;
+                currentMainImage.IsActive = true;
+                currentMainImage.UpdatedAt = DateTime.UtcNow;
+                currentMainImage.UpdatedBy = "Admin";
+            }
+        }
+
+        /// <summary>
+        /// Normalizes the image path to ensure it is in a consistent format for use in the application.
+        /// </summary>
+        /// <param name="imagePath"></param>
+        /// <returns></returns>
+        private static string NormalizeImagePath(string imagePath)
+        {
+            imagePath = imagePath.Trim();
+
+            if (imagePath.StartsWith("~/"))
+            {
+                imagePath = imagePath.Replace("~/", "/");
+            }
+
+            if (!imagePath.StartsWith("/") &&
+                !imagePath.StartsWith("http://") &&
+                !imagePath.StartsWith("https://"))
+            {
+                imagePath = "/" + imagePath;
+            }
+
+            return imagePath;
+        }
+
+        /// <summary>
+        /// Retrieves the base URL of the portal from the application configuration settings.
+        /// </summary>
+        /// <returns></returns>
+        private string GetPortalBaseUrl()
+        {
+            return _configuration["PortalSettings:PortalBaseUrl"]?.TrimEnd('/') ?? string.Empty;
+        }
 
     }
 }

@@ -36,7 +36,8 @@ namespace PrestivaCars.Web.ViewComponents
                 "faq",
                 "privacy-policy",
                 "terms-and-conditions",
-                "cookie-policy"
+                "cookie-policy",
+                //"portfolio"
             };
 
             foreach (var slug in footerSlugs)

@@ -147,7 +147,7 @@ namespace PrestivaCars.Intranet.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Banners/BulkRestore
+        // POST: Banners/BulkDelete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BulkDelete(List<int> selectedIds)

@@ -10,6 +10,8 @@
     var legalPages = Model
         .Where(p => p.Slug == "privacy-policy" || p.Slug == "terms-and-conditions" || p.Slug == "cookie-policy")
         .ToList();
+
+    //var extras = Model.Where(p => p.Slug == "portfolio").ToList();
 }
 
 <footer class="prestiva-footer">
@@ -82,6 +84,23 @@
                     }
                 </ul>
             </div>
+
+            @* <div class="prestiva-footer-column prestiva-footer-support">
+                <h5 class="prestiva-footer-title">Extras</h5>
+
+                <ul class="prestiva-footer-list">
+                    @foreach (var footerPage in extras)
+                    {
+                        <li>
+                            <a asp-controller="Pages"
+                               asp-action="Details"
+                               asp-route-slug="@footerPage.Slug">
+                                @footerPage.LinkTitle
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div> *@
 
         </div>
 

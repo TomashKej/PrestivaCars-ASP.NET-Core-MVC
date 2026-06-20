@@ -25,7 +25,7 @@
 
 <div class="card shadow-lg border-0">
     <div class="card-body p-4">
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <input type="hidden" asp-for="VehicleOfferId" />
@@ -90,6 +90,90 @@
                               rows="7"
                               placeholder="Write the public offer description..."></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card border-0 bg-light mt-2">
+                        <div class="card-body">
+                            <h5 class="mb-2">Main Offer Image</h5>
+
+                            <p class="text-muted small mb-3">
+                                Update the image path manually or upload a new main image for this offer.
+                            </p>
+
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label class="form-label">Image Path</label>
+
+                                    <input type="text"
+                                           name="mainImagePath"
+                                           value="@ViewBag.MainImagePath"
+                                           class="form-control"
+                                           placeholder="/content/offers/example-image.jpg" />
+
+                                    <div class="form-text">
+                                        This path is stored in the database and used by the public Portal.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Alt Text</label>
+
+                                    <input type="text"
+                                           name="mainImageAltText"
+                                           value="@ViewBag.MainImageAltText"
+                                           class="form-control"
+                                           placeholder="Image description" />
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Upload New Image</label>
+
+                                    <input type="file"
+                                           name="mainImageFile"
+                                           class="form-control"
+                                           accept=".jpg,.jpeg,.png,.webp" />
+
+                                    <span class="text-danger" data-valmsg-for="mainImageFile"></span>
+
+                                    <div class="form-text">
+                                        If you upload a new image, it will replace the current main image path.
+                                    </div>
+                                </div>
+
+                                @{
+                                    var imagePath = ViewBag.MainImagePath as string;
+                                    var portalBaseUrl = ViewBag.PortalBaseUrl as string ?? string.Empty;
+                                    var previewUrl = string.Empty;
+
+                                    if (!string.IsNullOrWhiteSpace(imagePath))
+                                    {
+                                        previewUrl = imagePath.StartsWith("http")
+                                            ? imagePath
+                                            : portalBaseUrl + imagePath;
+                                    }
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(previewUrl))
+                                {
+                                    <div class="col-md-12">
+                                        <label class="form-label">Current Image Preview</label>
+
+                                        <div class="border rounded-4 overflow-hidden bg-white">
+                                            <img src="@previewUrl"
+                                                 alt="@ViewBag.MainImageAltText"
+                                                 class="img-fluid w-100"
+                                                 style="max-height: 280px; object-fit: cover;" />
+                                        </div>
+
+                                        <div class="form-text mt-2">
+                                            Preview URL: @previewUrl
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
